@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="zh_CN">
+	<head>
+	<title>{:config('web_site_title')} - 管理员登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="__PLUG__/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="__PLUG__/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="__PLUG__/jqueryToast/css/toast.css">
+	<link rel="stylesheet" href="__ADMIN_CSS__/AdminLTE.min.css">
+    <link rel="stylesheet" href="__ADMIN_CSS__/style.css">
+	<style>
+	input{border:0;outline:none;}
+	.zbphp * {
+		box-sizing: border-box;
+	}
+	.zbphp {
+		height: 100vh;
+		background-image: url('/static/admin/images/bg.jpg');
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+	}
+	.zbphp .pannel {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 1000px;
+		height: 480px;
+		margin-top: -237px;
+		margin-left: -500px;
+		font-size: 0;
+	}
+	.zbphp .pannel .pass_logo {
+		background-color: #008fd7;
+		text-align: center;
+		padding-top: 100px;
+		width: 400px;
+		float: right;
+	}
+	.zbphp .pannel .pass_logo .vip_bank {
+	line-height: 28px;
+	font-size: 1.8rem;
+	color: #FFFFFF;
+	letter-spacing: 0.9px
+}
+.zbphp .pannel .pass_logo .vip_bank:last-of-type {
+	margin-bottom: 15px
+}
+.zbphp .pannel .pass_logo .vip_bank:first-of-type {
+	margin-top: 139px
+}
+	.zbphp .pannel [class^='pass_'] {
+		font-size: 1.4rem;
+		color: #B3B3B3;
+		height: 100%;
+	}
+	.zbphp .pass_form {
+	position: relative;
+	top: 0;
+	width: 600px;
+	background-color: #FFF
+}
+.zbphp .pass_form form {
+	padding: 40px 70px 40px 60px;
+	height: 100%
+}
+.zbphp .pass_form input[type="text"], .zbphp .pass_form input[type="password"] {
+	border: none;
+	padding: 0 5px 5px;
+	line-height: 50px;
+	border-bottom: 1px solid #D8D8D8;
+	width: 500px;
+	font-size: 18px;
+	font-size: 1.8rem;
+	color: #333333;
+	display: inline-block;
+}
+.zbphp .pass_form input[type="text"].middle, .zbphp .pass_form input[type="password"].middle {
+	width: 320px;
+	margin-right: 25px
+}
+.zbphp .pass_form input[type="text"].s_middle, .zbphp .pass_form input[type="password"].s_middle {
+	width: 330px;
+	margin-right: 25px
+}
+.zbphp .pass_form input[type="text"].small, .zbphp .pass_form input[type="password"].small {
+	width: 150px;
+	margin-right: 20px
+}
+.zbphp .pass_form .bank img {
+	border: 1px solid transparent;
+	display: inline-block
+}
+.zbphp .pass_form .bank img.current {
+	border-color: #008fd7
+}
+.zbphp .pass_form .btn_v1 {
+	text-align: center;
+	background-color: #FFF;
+	border: 1px solid #008fd7;
+	color: #008fd7;
+	line-height: 40px;
+	padding: 0 20px;
+	font-size: 16px;
+	font-size: 1.6rem;
+	vertical-align: bottom;
+	display: inline-block;
+	cursor: pointer;
+}
+.zbphp .pass_form .btn_v1.blue {
+	background-color: #008fd7;
+	color: #fff
+}
+.zbphp .pass_form .btn_v1.large {
+	line-height: 43px;
+	padding: 0 62px;
+	font-size: 18px;
+	font-size: 1.8rem
+}
+.zbphp .pass_form .btn_v1.banner {
+	width: 100%;
+	padding-left: 0;
+	padding-right: 0
+}
+.zbphp .pass_form .btn_v1.disable {
+	border-color: #d8d8d8;
+	color: #d8d8d8
+}
+.zbphp .pass_form .form_part {
+	margin-bottom: 40px;
+	overflow: visible;
+	white-space: nowrap
+}
+.zbphp .pass_form .form_part i {
+	cursor: pointer
+}
+.zbphp .pass_form .form_part i:hover {
+	color: #333
+}
+.zbphp .pass_form .form_part.mobile_part {
+	display: flex;
+	justify-content: space-between
+}
+.zbphp .pass_form .form_part.mobile_part.hide {
+	display: none
+}
+.zbphp .pass_form .form_part.mobile_part input.mobile {
+	width: 100%;
+}
+.zbphp .pass_form .form_part.mobile_part .sel_area, .zbphp .pass_form .form_part.mobile_part .sel_areaa {
+	display: inline-block;
+	line-height: 50px;
+	color: #757575;
+	border-bottom: 1px solid #D8D8D8;
+	font-size: 18px;
+	font-size: 1.8rem;
+	position: relative;
+	cursor: pointer;
+	text-align: center;
+	width: 15%
+}
+.zbphp .pass_form .form_part.mobile_part .sel_area.hide, .zbphp .pass_form .form_part.mobile_part .sel_areaa.hide {
+	display: none
+}
+.zbphp .pass_form .form_part.mobile_part .sel_area::after, .zbphp .pass_form .form_part.mobile_part .sel_areaa::after {
+	content: "";
+	display: inline-block;
+	width: 1px;
+	height: 25px;
+	background-color: #D8D8D8;
+	position: absolute;
+	right: 0;
+	top: 50%;
+	margin-top: -13px
+}
+.zbphp .pass_form .form_part.mobile_part .sel_area i, .zbphp .pass_form .form_part.mobile_part .sel_areaa i {
+	vertical-align: text-bottom
+}
+.zbphp .pass_form .form_last {
+	margin-bottom: 15px
+}
+.zbphp .pass_form .form_first {
+	margin-bottom: 15px
+}
+.zbphp .pass_form .agree {
+	line-height: 20px;
+	margin-bottom: 15px;
+	margin-top: 15px;
+	color: #B3B3B3;
+	font-size: 16px;
+	font-size: 1.6rem;
+	text-align: center
+}
+.zbphp .pass_form .agree .agreement {
+	color: #00A4A0;
+	margin-left: 5px;
+	text-decoration: underline
+}
+.zbphp .pass_form .get_more {
+	margin-top: -20px;
+	font-size: 16px;
+	font-size: 1.6rem;
+	color: #b3b3b3;
+	line-height: 25px
+}
+.zbphp .pass_form .get_more .remember {
+	margin-right: 8px;
+	width: 17px;
+	height: 17px;
+	vertical-align: middle
+}
+.zbphp .pass_form .get_more label {
+	color: #909090
+}
+.zbphp .pass_form .get_more .forget {
+	color: #B3B3B3
+}
+.zbphp .pass_form .login-tip {
+	display: none
+}
+.zbphp .pass_form .title {
+	font-size: 24px;
+	font-size: 2.4rem;
+	color: #333;
+	line-height: 24px;
+	margin-bottom: 40px
+}
+.zbphp .pass_form .title .or {
+	color: #808080;
+	font-size: 13px;
+	font-size: 1.3rem;
+	margin: 0 20px
+}
+.zbphp .pass_form .title .link {
+	font-size: 13px;
+	font-size: 1.3rem;
+	cursor: pointer;
+	text-decoration: underline
+}
+.zbphp .pass_form .title span {
+	display: inline-block
+}.zbphp .pass_form .option button {
+	margin-right: 20px;
+	position: absolute;
+	bottom: 50px
+}
+.zbphp .pass_form .option .agree {
+	font-size: 13px;
+	font-size: 1.3rem;
+	text-align: left
+}
+.zbphp .pass_form .option a {
+	margin: 0 5px
+}
+.zbphp .pass_form .option .hint {
+	position: absolute;
+	bottom: 50px;
+	right: 0;
+	right: 120px;
+	line-height: 45px;
+	display: inline-block
+}
+.zbphp .pass_form .option .hint a {
+	margin: 0;
+	text-decoration: underline
+}
+.fr{float:right}
+	</style>
+	</head>
+	<body class="login">
+		<section class="zbphp">
+			<div class="pannel">
+				<div class="pass_logo fr">
+					<img src="/static/admin/images/logo_xs_white.png" alt="北京中犇软件" width="203">
+					<p class="vip_bank p-first">创新·无畏·诚信·奉献</p>
+					<p class="vip_bank">中国最专业的APP服务商</p>
+				</div>
+				<div class="pass_form">
+					<form class="login_form"  action="{:url()}" method="post" id="login" data-validator-option="{timely:0, theme:'bootstrap'}">
+						<input type="hidden" id="login_method" name="login_method" value="1">
+						<div class="form_part acc_log acc_click">
+							<h2 class="title"><span>账号登录</span><!-- <span class="or">or</span><span class="link log_p">验证码登录</span> --></h2>
+						</div>
+						<!-- <div class="form_part passs_log hide">
+							<h2 class="title"><span>验证码登录</span><span class="or">or</span><span class="link log_a">账号登录</span></h2>
+						</div> -->
+						<div class="acc_log">
+							<div class="form_part mobile_part">
+								<input type="text" placeholder="手机号" name="username" data-target="手机号" class="username transition" value="">
+							</div>
+							<div class="form_part mobile_part">
+								<input type="password" placeholder="密码" name="password" data-target="密码">
+							</div>
+
+							<!-- <div class="form_part get_more bottom20"><a href="javascript:;" class="forget fr">忘记密码？</a></div> -->
+						</div>
+						<!-- <div class="passs_log hide mobile_regiter_form ">
+							<div class="form_part mobile_part">
+								<input class="username" type="text" placeholder="手机号" name="username" value="">
+							</div>
+							<div class="form_part form_last">
+								<input type="text" placeholder="验证码" name="verification_captcha_word" class="phone_code middle">
+								<span class="btn_v1 js_send_code">发送验证码</span>
+							</div>
+						</div> -->
+						<div class="option">
+							<button class="btn_v1 blue large">登录</button>
+							<!-- <span class="hint"><span class="hint_left">没有账号？<a href="JavaScript:;" class="link">去注册</a></span> <span
+								 class="hint_right"><a href="JavaScript:;" class="link js_help">登录遇到问题</a></span>
+							</span>
+							</span> -->
+					</form>
+				</div>
+			</div>
+		</section>
+		<!-- </div> -->
+		<script src="__PLUG__/jquery/jquery.min.js"></script>
+		<script src="__PLUG__/jqueryToast/js/toast.js"></script>
+		<script src="__PLUG__/nice-validator/jquery.validator.min.js?local=zh-CN"></script>
+		<script src="__ADMIN_JS__/stars.js"></script>
+		<script type="text/javascript">
+			// 点击切换
+			$(".log_p").click(function() {
+				$(".acc_log").addClass('hide');
+				$(".passs_log").removeClass('hide');
+				$("#login_method").val(2);
+			})
+			$(".log_a").click(function() {
+				$(".passs_log").addClass('hide');
+				$(".acc_log").removeClass('hide');
+				$("#login_method").val(1);
+			})
+			/* 获取验证码 */
+			function yzphone(num) {
+				var re = /^1[3456789]\d{9}$/;
+				if (re.test(num) == false) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+
+			//获取验证码
+			var countdown = 60;
+			var tiems = null;
+			$(".js_send_code").click(function(){
+				getyzm(this);
+			})
+			function getyzm(val) {
+				var $val = $(val);
+				var phone = $(".mobile").val();
+				if ($val.hasClass('disabled')) {
+					return false;
+				} else {
+					if (!yzphone(phone)) {
+						alert('请填写正确的手机号！');
+						return false;
+					}
+				}
+				console.log('发送验证码')
+				setTime(val);
+				//获取yzm
+				/*$.ajax({
+					type:"post",
+					url:"",
+					async:true,
+					success:function(data){
+						console.log(data);
+					},
+					error:function(event,xhr,options,exc){
+						alert('短信验证出现问题，请稍后再试。')
+						console.log(xhr.start);
+					}
+				});*/
+			}
+			function setTime(val) {
+				if (countdown <= 0) {
+					countdown = 60;
+					$(val).removeClass('disabled').html('获取验证码');
+					return false;
+				} else {
+					$(val).addClass('disabled');
+					countdown--;
+					$(val).html("重新发送(" + countdown + "s)");
+					setTimeout(function() {
+						setTime(val)
+					}, 1000)
+					return false;
+				}
+			}
+	$(document).ready(function () {
+        $('#login').on('valid.form', function (e) {
+            var $data = $(this).serialize();
+
+            Stars.loading();
+            $.post($(this).attr('action'), $data, function (res) {
+                Stars.loading('hide');
+                if (res.code) {
+                    Stars.notify('登录成功，页面即将跳转~', 'success');
+                    setTimeout(function () {
+                        location.href = res.url;
+                    }, 1500);
+                } else {
+                    if (res.msg == '验证码错误或失效') {
+                        $('#captcha').click();
+                    }
+                    Stars.notify(res.msg, 'danger','fa fa-bell-slash');
+                }
+            }).fail(function () {
+                Stars.loading('hide');
+                Stars.notify('服务器错误~', 'danger');
+            });
+            return false;
+        });
+    });
+		</script>
+	</body>
+</html>

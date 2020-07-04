@@ -1,0 +1,71 @@
+{include file="index/head" /}
+<div class="install-box box">
+	<div class="box-header with-border">
+		<h3 class="box-title">数据库配置</h3>
+	</div>
+	<div class="box-body">
+		<form action="?step=4" method="post" id="form" class="form-horizontal"  data-validator-option="{timely:1, theme:'bootstrap'}">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">服务器地址</label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" name="hostname" value="127.0.0.1" data-rule="required;">
+				</div>
+				<div class="col-sm-5 text-left">数据库服务器地址，一般为127.0.0.1</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">数据库端口</label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" name="hostport" value="3306"  data-rule="required;">
+				</div>
+				<div class="col-sm-5 text-left">系统数据库端口，一般为3306</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">数据库名称</label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" name="database" data-rule="required;">
+				</div>
+				<div class="col-sm-5 text-left">系统数据库名,必须包含字母</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">数据库账号</label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" name="username" data-rule="required;">
+				</div>
+				<div class="col-sm-5 text-left">连接数据库的用户名</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">数据库密码</label>
+				<div class="col-sm-5">
+					<input type="password" class="form-control" name="password" data-rule="required;">
+				</div>
+				<div class="col-sm-5 text-left">连接数据库的密码</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">数据库前缀</label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" name="prefix" value="lb_" data-rule="required;">
+				</div>
+				<div class="col-sm-5 text-left">建议使用默认,数据库前缀必须带 '_'</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">覆盖数据库</label>
+				<div class="col-sm-5 text-left">
+					<input type="radio" name="cover" value="1" title="覆盖">
+					覆盖
+					<input type="radio" name="cover" value="0" title="不覆盖" checked>
+					不覆盖 </div>
+				<div class="col-sm-5 text-left">建议使用默认,数据库前缀必须带 '_'</div>
+			</div>
+			<div class="form-group step-btns text-center"> 
+				<a href="?step=2" class="btn btn-success">返回上一步</a>
+				<button type="submit" class="btn btn-success">立即执行安装</button>
+			</div>
+		</form>
+	</div>
+</div>
+<link rel="stylesheet" href="__PLUG__/jqueryToast/css/toast.css?v={:config('asset_version')}">
+<script src="__PLUG__/jquery/jquery.min.js"></script> 
+<script src="__PLUG__/jqueryToast/js/toast.js"></script> 
+<script src="__PLUG__/nice-validator/jquery.validator.min.js?local=zh-CN"></script> 
+<script src="__ADMIN_JS__/stars.js"></script> 
+{include file="index/foot" /} 

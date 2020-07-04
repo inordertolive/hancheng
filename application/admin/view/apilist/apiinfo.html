@@ -1,0 +1,204 @@
+{extend name="layout" /}
+{block name="content"}
+	<div class="box">
+		<div style="padding: 20px;">
+			<span style="color:red"><b>{$data['info']}</b>：</span> <a href="{:config('web_site_domain')}/index/api/index/hash/{$data['hash']}" target="_blank">{:config('web_site_domain')}/api/v1/{$data['hash']}</a> <span class="text-left label label-success">{$data['method_turn']}</span>
+			<span class="text-left label {if $data['status'] == 0 }label-danger{else /}{eq name="$data['isTest']" value='0'}label-success{else /}label-warning{/eq}{/if}">
+			        {eq name="$data['status']" value="0"}{$data['status_turn']}{else /}{$data['isTest_turn']}{/eq}
+			 </span>
+		</div>
+	</div>
+
+	<div class="block nav-tabs-custom mb0">
+        <ul class="nav nav-tabs">
+          	<li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">请求参数</a></li>
+          	<li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">返回参数</a></li>
+			<li class=""><a href="#tab_3" data-toggle="tab" aria-expanded="false">返回示例</a></li>
+        </ul>
+        <div class="tab-content">
+          	<div class="tab-pane active block-content" id="tab_1">
+            	<h5 style="padding-bottom:10px;"><b>公共请求参数</b></h5>
+				<div class="box no-header">
+				    <div class="box-body table-responsive no-padding">
+						<table class="table table-builder table-hover table-bordered table-striped js-table-checkable">
+						    <tbody>
+						    	<tr>
+						          	<th width="100">参数名字</th>
+						          	<th width="120">类型</th>
+						          	<th width="80">是否必须</th>
+						          	<th width="70">默认值</th>
+						          	<th>其他</th>
+						          	<th>说明</th>
+						       	</tr>
+						        <tr>
+						          	<td>appid</td>
+						          	<td><span class="label label-success">String[字符串]</span></td>
+						          	<td class="text-center">
+						          		<span class="label {if $data['checkSign'] == 0 }label-success{else /}label-danger{/if}">
+						          			{if $data['checkSign'] == 0 }选填{else /}必填{/if}
+						          		</span>
+						          	</td>
+						          	<td></td>
+						          	<td></td>
+						          	<td>APP请求标识</td>
+						        </tr>
+								
+								 <tr>
+						          	<td>signaturenonce</td>
+						          	<td><span class="label label-success">String[字符串]</span></td>
+						          	<td class="text-center">
+						          		<span class="label {if $data['checkSign'] == 0 }label-success{else /}label-danger{/if}">
+						          			{if $data['checkSign'] == 0 }选填{else /}必填{/if}
+						          		</span>
+						          	</td>
+						          	<td></td>
+						          	<td></td>
+						          	<td>随机字符串,可用UUID+随机数 进行MD5获得</td>
+						        </tr>
+								
+							   <tr>
+						          	<td>signature</td>
+						          	<td><span class="label label-success">String[字符串]</span></td>
+						          	<td class="text-center">
+						          		<span class="label {if $data['checkSign'] == 0 }label-success{else /}label-danger{/if}">
+						          			{if $data['checkSign'] == 0 }选填{else /}必填{/if}
+						          		</span>
+						          	</td>
+						          	<td></td>
+						          	<td></td>
+						          	<td>签名,参考签名算法 <a href="{:url('check')}" target="_blank" class="label label-success">查看签名算法<a></td>
+						        </tr>
+								
+								 <tr>
+						          	<td>timestamp</td>
+						          	<td><span class="label label-success">String[字符串]</span></td>
+						          	<td class="text-center">
+						          		<span class="label {if $data['checkSign'] == 0 }label-success{else /}label-danger{/if}">
+						          			{if $data['checkSign'] == 0 }选填{else /}必填{/if}
+						          		</span>
+						          	</td>
+						          	<td></td>
+						          	<td></td>
+						          	<td>请求时间戳 （北京时间）</td>
+						        </tr>
+						        <tr>
+						          	<td>usertoken</td>
+						          	<td><span class="label label-success">String[字符串]</span></td>
+						          	<td class="text-center">
+						          		<span class="label {if $data['needLogin'] == 0 }label-success{else /}label-danger{/if}">
+						          			{if $data['needLogin'] == 0 }选填{else /}必填{/if}
+						          		</span>
+						          	</td>
+						          	<td></td>
+						          	<td></td>
+						          	<td>usertoken用户认证秘钥【请通过登录获取】</td>
+						        </tr>
+
+						    </tbody>
+						</table>
+				    </div>
+				</div>
+
+            	<h5 style="padding-bottom:10px;"><b>请求参数</b></h5>
+				<div class="box no-header">
+				    <div class="box-body table-responsive no-padding">
+						<table class="table table-builder table-hover table-bordered table-striped js-table-checkable">
+						    <tbody>
+						    	<tr>
+						          	<th width="100">参数名字</th>
+						          	<th width="120">类型</th>
+						          	<th width="80">是否必须</th>
+						          	<th width="70">默认值</th>
+						          	<th>其他</th>
+						          	<th>说明</th>
+						       	</tr>
+						       	{volist name="$q_field" id="vo"}
+						        <tr>
+						          	<td>{$vo['fieldName']}</td>
+						          	<td><span class="label label-success">{$vo['dataType_turn']}</span></td>
+						          	<td class="text-center">
+						          		<span class="label {if $vo['isMust'] == 0 }label-success{else /}label-danger{/if}">
+						          			{$vo['isMust_turn']}
+						          		</span>
+						          	</td>
+						          	<td>{$vo['default']}</td>
+						          	<td></td>
+						          	<td>{$vo['info']}</td>
+						        </tr>
+								{/volist}
+						    </tbody>
+						</table>
+				    </div>
+				</div>
+          	</div>
+
+          	<div class="tab-pane block-content" id="tab_2">
+
+            	<h5 style="padding-bottom:10px;"><b>公共返回参数</b></h5>
+				<div class="box no-header">
+				    <div class="box-body table-responsive no-padding">
+						<table class="table table-builder table-hover table-bordered table-striped js-table-checkable">
+						    <tbody>
+						    	<tr>
+						          	<th width="100">返回字段</th>
+						          	<th width="">类型</th>
+						          	<th>说明</th>
+						       	</tr>
+						        <tr>
+						          	<td>code</td>
+						          	<td><span class="label label-success">Integer[整数]</span></td>
+						          	<td>返回码，详情请参阅<a href="javascript:void(0);" data-url="{:url('errorlist')}" data-toggle="dialog">状态码说明</a></td>
+						        </tr>
+						        <tr>
+						          	<td>msg</td>
+						          	<td><span class="label label-success">String[字符串]</span></td>
+						          	<td>返回中文状态描述，详情请参阅<a href="javascript:void(0);" data-url="{:url('errorlist')}" data-toggle="dialog">状态码说明</a></td>
+						        </tr>
+						        <tr>
+						          	<td>data</td>
+						          	<td><span class="label label-success">json</span></td>
+						          	<td>返回json类型数据</td>
+						        </tr>
+								
+								 <tr>
+						          	<td>user</td>
+						          	<td><span class="label label-success">json</span></td>
+						          	<td>
+									返回json类型数据,若你使用了UserToken鉴权，此处透传变动前的会员基础信息
+									详情请参阅<a href="javascript:void(0);" data-url="{:url('userlist')}" data-toggle="dialog">会员信息字段说明</a>
+									</td>
+						        </tr>
+
+						    </tbody>
+						</table>
+				    </div>
+				</div>
+
+            	<h5 style="padding-bottom:10px;"><b>data参数</b></h5>
+				<div class="box no-header">
+				    <div class="box-body table-responsive no-padding">
+						<table class="table table-builder table-hover table-bordered table-striped js-table-checkable">
+						    <tbody>
+						    	<tr>
+						          	<th width="100">返回字段</th>
+						          	<th>类型</th>
+						          	<th>说明</th>
+						       	</tr>
+						       	{volist name="$f_field" id="vo"}
+						        <tr>
+						          	<td>{$vo['fieldName']}</td>
+						          	<td><span class="label label-success">{$vo['dataType_turn']}</span></td>
+						          	<td>{$vo['info']}</td>
+						        </tr>
+								{/volist}
+						    </tbody>
+						</table>
+				    </div>
+				</div>
+          	</div>
+			<div class="tab-pane block-content" id="tab_3">
+				<pre>{$data.returnStr|raw}</pre>
+			</div>
+        </div>
+    </div>
+{/block}

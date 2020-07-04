@@ -1,0 +1,114 @@
+								{:token()}
+								{notempty name="form_items"}
+									{volist name="form_items" id="form"}
+										{php}
+											if($form['type'] == 'linkages'){
+											    $form['token'] = createLinkagesToken($form['table'],$form['option'],$form['key']);
+											}
+										{/php}
+                                        {switch name="form.type"}
+
+                                            {case value="checkbox"}
+                                                {// 多选 }
+                                                {include file="../application/admin/view/public/items/checkbox.html" /}
+                                            {/case}
+
+											{case value="linkages"}
+                                                {// 快速联动 }
+                                                {include file="../application/admin/view/public/items/linkages.html" /}
+                                            {/case}
+
+                                            {case value="hidden"}
+                                                {// 隐藏 }
+                                                {include file="../application/admin/view/public/items/hidden.html" /}
+                                            {/case}
+
+                                            {case value="icon"}
+                                                {// 图标选择器 }
+                                                {include file="../application/admin/view/public/items/icon.html" /}
+                                            {/case}
+
+											{case value="date"}
+                                                {// 日期 }
+                                                {include file="../application/admin/view/public/items/date.html" /}
+                                            {/case}
+
+                                            {case value="image"}
+                                                {// 单图片上传 }
+                                                {include file="../application/admin/view/public/items/image.html" /}
+                                            {/case}
+
+											{case value="images"}
+                                                {// 多图片上传 }
+                                                {include file="../application/admin/view/public/items/images.html" /}
+                                            {/case}
+
+											{case value="file"}
+                                                {// 单图片上传 }
+                                                {include file="../application/admin/view/public/items/file.html" /}
+                                            {/case}
+
+											{case value="files"}
+                                                {// 多图片上传 }
+                                                {include file="../application/admin/view/public/items/files.html" /}
+                                            {/case}
+
+                                            {case value="number"}
+                                                {// 数字 }
+                                                {include file="../application/admin/view/public/items/number.html" /}
+                                            {/case}
+
+											{case value="money"}
+                                                {// 数字|2位小数 }
+                                                {include file="../application/admin/view/public/items/money.html" /}
+                                            {/case}
+
+                                            {case value="password"}
+                                                {// 密码 }
+                                                {include file="../application/admin/view/public/items/password.html" /}
+                                            {/case}
+
+                                            {case value="radio"}
+                                                {// 单选 }
+                                                {include file="../application/admin/view/public/items/radio.html" /}
+                                            {/case}
+
+                                            {case value="select"}
+                                                {// 下拉菜单 }
+                                                {include file="../application/admin/view/public/items/select.html" /}
+                                            {/case}
+
+                                            {case value="text"}
+                                                {// 单行文本 }
+                                                {include file="../application/admin/view/public/items/text.html" /}
+                                            {/case}
+
+											{case value="static"}
+                                                {// 静态文本 }
+                                                {include file="../application/admin/view/public/items/static.html" /}
+                                            {/case}
+
+											{case value="sort"}
+                                                {// 文本框|排序 }
+                                                {include file="../application/admin/view/public/items/sort.html" /}
+                                            {/case}
+
+                                            {case value="textarea|array"}
+                                                {// 文本框|数组 }
+                                                {include file="../application/admin/view/public/items/textarea.html" /}
+                                            {/case}
+
+											{case value="alivideo"}
+                                                {// 阿里OSS单视频上传 }
+                                                {include file="../application/admin/view/public/items/alivideo.html" /}
+                                            {/case}
+
+                                            {case value="wangeditor"}
+                                                {// wang编辑器 }
+                                                {include file="../application/admin/view/public/items/wangeditor.html" /}
+                                            {/case}
+                                            {default/}
+                                        {/switch}
+                                    {/volist}
+                                {/notempty}
+								

@@ -1,0 +1,19 @@
+<div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12" id="form_group_{$form.name}">
+	<div class="col-xs-12 label-title" for="{$form.name}">{$form.title|htmlspecialchars}</div>
+	<div class="col-sm-12">
+		<div class="input-group js-icon-picker">
+			<input class="form-control icon_input" type="text" id="{$form.name}" name="{$form.name}" value="{empty name="form.value"}fa fa-fw{else /}{$form.value|default=''}{/empty}" placeholder="请选择图标" {$form.attr|default=''}>
+			<span class="input-group-addon delete-icon" style="border-left: 1px solid #D2D6DD;cursor: pointer;"><i class="fa fa-fw fa-trash"></i> 清除图标</span> </div>
+		{notempty name="form.tips"}
+		<div class="help-block">{$form.tips|raw}</div>
+		{/notempty} 
+	</div>
+</div>
+<div id="icon_tab" style="display:none">
+	<div class="tab-content" style="padding: 10px">
+		<div class="tab-pane fade active in" id="fa"> {include file="../application/admin/view/menu/icon_view.html" /} </div>
+		{volist name="_icons" id="icon"}
+		<div class="tab-pane fade" id="icon{$icon.id}"> {$icon.html|default='暂无图标'} </div>
+		{/volist} 
+	</div>
+</div>

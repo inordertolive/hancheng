@@ -1,0 +1,1 @@
+DROP TABLE IF EXISTS `lw_addons_dysms`;

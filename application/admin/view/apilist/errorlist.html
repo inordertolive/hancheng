@@ -1,0 +1,14 @@
+<table class="table table-hover table-bordered mb0">
+	<tbody>
+		<tr>
+			<th width="70">错误码</th>
+			<th>中文说明</th>
+		</tr>
+	{volist name="$errorlist" id="vo"}
+	<tr>
+		<td>{$vo[0]}</td>
+		<td>{$vo[1]}</td>
+	</tr>
+	{/volist}
+	</tbody>
+</table>

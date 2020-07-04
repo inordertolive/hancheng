@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class=" ">
+<head>
+<meta charset="utf-8">
+<title>{:config('web_site_title')} 接口文档</title>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--自适应声明部分-->
+<meta name="applicable-device" content="pc">
+<link rel="stylesheet" type="text/css" href="/static/plugins/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/static/plugins/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="/static/plugins/other/document.css">
+<link rel="stylesheet" href="/static/admin/css/AdminLTE.min.css?v=20180725">
+<link rel="stylesheet" href="/static/admin/css/skins/skin-black.css?v={:config('asset_version')}">
+<link rel="stylesheet" href="__PLUG__/jqueryToast/css/toast.css">
+<link rel="stylesheet" href="/static/admin/css/style.css?v={:config('asset_version')}">
+<script type="text/javascript" src="/static/plugins/jquery/jquery.min.js"></script>
+<script src="__PLUG__/jqueryToast/js/toast.js"></script>
+<script src="__PLUG__/nice-validator/jquery.validator.min.js?local=zh-CN"></script>
+<script src="__ADMIN_JS__/stars.js"></script>
+</head>
+<body>
+<div class="row">
+	<div class="col-md-12"> 
+		<div class="box">
+			<div class="box-header with-border">
+                <h3 class="box-title">模拟请求，请求地址:{:config('web_site_domain')}/api/v1/{$data['hash']}</h3>
+            </div>
+			<div class="box-body">
+			<form id="login" class="form row" action="{:config('web_site_domain')}/api/v1/{$data['hash']}" method="post">
+				{volist name="$q_field" id="vo"}
+				<div class="form-group col-md-12 col-xs-12">
+					<label class="col-md-12">{$vo['info']}，默认值：{neq name="vo.default" value=""}{$vo.default}{else /}无{/neq} <span class="label {if $vo['isMust'] == 0 }label-success{else /}label-danger{/if}"> {$vo['isMust_turn']} </span></label>
+					<div class="col-md-12">
+						<input type="text" name="{$vo['fieldName']}" class="form-control" placeholder="请输入" value="" {eq name="vo.isMust" value="1"}data-rule="required"{/eq}/>
+					</div>
+				</div>
+				{/volist}
+				{notempty name="q_field"}
+				<div class="form-group col-md-12 col-xs-12">
+					<div class="col-xs-12">
+						<button class="btn btn-minw btn-primary btn-flat" type="submit">点击请求</button>
+					</div>
+				</div>
+				{else /}
+				<div class="form-group col-md-12 col-xs-12">
+					<div class="col-xs-12">
+						<button class="btn btn-minw btn-primary btn-flat" type="button" id="request">点击请求</button>
+					</div>
+				</div>
+				{/notempty}
+				<div class="form-group col-md-12 col-xs-12">
+					<div class="col-xs-12"> 结果: </div>
+					<div class="col-xs-12"> <pre id="result"> </pre> </div>
+				</div>
+			</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+    $(document).ready(function () {
+		{notempty name="q_field"}
+        $('#login').on('valid.form', function (e) {
+            var $data = $(this).serialize();
+			var usertoken = localStorage.getItem('user-token')
+            Stars.loading();
+			$.ajax({
+			  url: $(this).attr('action'),
+			  type:"{$data['method']== 1 ? 'POST' : 'GET'}",
+			  data: $data,
+			  headers:{"user-token":usertoken},
+			  success: function (res) {
+				Stars.loading('hide');
+				if(res.code == 0){
+					Stars.notify(res.msg,'danger');
+				}
+				{eq name="data.hash" value="5c78dbfd977cf"}
+					localStorage.setItem('user-token', res.data.userinfo.user_token);
+				{/eq}
+				{eq name="data.hash" value="5c78dca45ebc1"}
+					localStorage.setItem('user-token', res.data.userinfo.user_token);
+				{/eq}
+				{eq name="data.hash" value="5d7660a421e69"}
+					localStorage.setItem('user-token', res.data.userinfo.user_token);
+				{/eq}
+				{eq name="data.hash" value="5cad9f63e4f94"}
+					localStorage.setItem('user-token', res.data.userinfo.user_token);
+				{/eq}
+                $('#result').html(JSON.stringify(res, null, "\t"));
+			  }
+			});
+            return false;
+        });
+		{else /}
+		$('#request').on('click', function (e) {
+			var usertoken = localStorage.getItem('user-token')
+            Stars.loading();
+			$.ajax({
+			  url: "{:config('web_site_domain')}/api/v1/{$data['hash']}",
+			  type:"{$data['method']== 1 ? 'POST' : 'GET'}",
+			  headers:{"user-token":usertoken},
+			  success: function (res) {
+				Stars.loading('hide');
+				if(res.code == 0){
+					Stars.notify(res.msg,'danger');
+				}
+                $('#result').html(JSON.stringify(res, null, "\t"));
+			  }
+			});
+            return false;
+        });
+		{/notempty}
+    });
+</script>
+</body>
+</html>

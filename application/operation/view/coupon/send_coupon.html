@@ -1,0 +1,120 @@
+{extend name="$admin_layout" /}
+{block name="content"}
+    <div class="row">
+        <div class="col-md-12" id="vue_det">
+            <div class="box nav-tabs-custom">
+                <div class="box-body tab-content">
+                    <form id="myform"  onSubmit="return false"   data-validator-option="{timely:1, theme:'bootstrap'}">
+                    <div class="tab-pane active" id="base">
+                        <div class="block-content row">
+                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12" id="form_group_cid">
+                                <div class="col-xs-12 label-title" for="type">发放类型</div>
+                                <div class="col-sm-12">
+                                    <select class="form-control"  id="type" data-rule="required;" data-msg-required="请选择" name="type">
+                                        <option value="0">请选择发放类型</option>
+                                        <option value="1">随机发放</option>
+                                        <option value="2">指定用户发放</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <input type="hidden" value="{$coupon_id}" name="coupon_id"/>
+                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12" id="showUser" style="display: none;"  v-show="show">
+                                <table class="table table-builder table-hover table-bordered table-striped mb10">
+                                    <thead>
+                                    <th class="text-center" style="width: 70px;"> <input class="minimal-red checkboxCtrl" data-group="user_ids[]" data-toggle="icheck" type="checkbox">
+                                    </th>
+                                    <th class="">用户ID</th>
+                                    <th class="">手机号</th>
+                                    <th class="">昵称</th>
+                                    </thead>
+                                    <tbody>
+                                    {volist name="user_list" id="u"}
+                                    <tr>
+                                        <td class="text-center" style="width: 70px;">
+                                            <input class="ids minimal-red" data-toggle="icheck" type="checkbox" name="user_ids[]" value="{$u.id}">
+                                        </td>
+                                        <td class=""> {$u.id} </td>
+                                        <td class=""> {$u.mobile} </td>
+                                        <td class=""> {$u.user_nickname}</td>
+                                    </tr>
+                                    {/volist}
+                                    </tbody>
+                                </table>
+                                <div class="data-table-toolbar">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            {notempty name="pages"}
+                                            {$pages|raw}
+                                            {/notempty}
+                                            {notempty name="user_list"}
+                                            <div class="pagination-info pull-left"> 第 {:input('param.page', '1')} 页 / 总计 {$lastPage} 页，共 <strong>{$totalPage}</strong> 条数据 </div>
+                                            {/notempty}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="block-content row">
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <div class="col-xs-12">
+                                        <button class="btn btn-primary btn-flat" type="submit" onclick="submitData()"> 提交 </button>
+                                        <button class="btn btn-default btn-flat" type="button" onclick="javascript:history.back(-1);return false;"> 返回 </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+
+             </div>
+        </div>
+    </div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+
+    $(document).on("change",'#type',function(){
+        var type = $("select[name='type']").val();
+        if(type==1){
+            $("#showUser").css("display","none");
+        }else{
+            $("#showUser").css("display","");
+        }
+    })
+    //进行表单提交
+    function submitData(){
+		var type = $("select[name='type']").val();
+            if(type==0){
+                layer.msg("请选择发放类型");return false;
+            }
+        layer.confirm('确定要发放？', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            if(type==2){
+                var number = $("input[type='checkbox']:checked").length;
+                if(number<=0){
+                    layer.msg("请选择发放用户人员！");return;
+                }
+            }
+            var data = $("#myform").serialize();
+            $.ajax({
+                'type':'post',
+                'data':data,
+                'url':"{:url('Coupon/send_coupon')}",
+                'dataType':'JSON',
+                'success':function(dat){
+                    if(dat.status == 1){
+                        window.location.href="{:url('Coupon/index')}";
+                    }else{
+                        layer.msg(dat.msg,{time: 2000,});
+                    }
+                }
+            })
+        });
+
+
+    }
+</script>
+{/block}
+
+

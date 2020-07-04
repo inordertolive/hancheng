@@ -1,0 +1,134 @@
+<div class="">
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h3>{$usernum}</h3>
+
+              <p>会员数量</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-bag"></i>
+            </div>
+            <a href="/admin.php/user/index/index.html" class="small-box-footer"> 查看详情 <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green">
+            <div class="inner">
+              <h3>{$ordernum}</h3>
+
+              <p>今日订单数</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="/admin.php/user/finance/money_log.html" class="small-box-footer"> 查看详情 <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-yellow">
+            <div class="inner">
+              <h3>{$rechargenum}</h3>
+
+              <p>今日充值金额</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-person-add"></i>
+            </div>
+            <a href="/admin.php/user/finance/money_log.html" class="small-box-footer"> 查看详情 <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-red">
+            <div class="inner">
+              <h3>{$kedan}</h3>
+
+              <p>客单价</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-pie-graph"></i>
+            </div>
+            <a href="/admin.php/user/finance/money_log.html" class="small-box-footer"> 查看详情 <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+<div class="col-md-6">
+    <div class="box block-bordered">
+        <div class="box-header with-border">
+            <h3 class="box-title">会员注册数量统计</h3>
+        </div>
+        <div class="box-body">
+            <div id="container1" style="margin-bottom:20px;width:100%;height: 300px"></div>
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="box block-bordered">
+        <div class="box-header with-border">
+            <h3 class="box-title">会员充值金额统计</h3>
+        </div>
+        <div class="box-body">
+			<div id="container2" style="margin-bottom:20px;width:100%;height: 300px"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/static/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript">
+var dom = document.getElementById("container1");
+var myChart = echarts.init(dom);
+var app = {};
+option1= null;
+option1 = {
+	title: {
+        text: '7日会员注册数量统计'
+    },
+    xAxis: {
+        type: 'category',
+        data: [{volist name="date" id="d"}{neq name="key" value="0"},{/neq}'{$d}'{/volist}]
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [{
+        data: [{$user1}],
+        type: 'line',
+		itemStyle : { normal: {label : {show: true}}},
+    }]
+};
+if (option1 && typeof option1 === "object") {
+    myChart.setOption(option1, true);
+}
+
+var dom = document.getElementById("container2");
+var myChart = echarts.init(dom);
+var app = {};
+option2= null;
+option2 = {
+	title: {
+        text: '7日会员充值金额统计'
+    },
+    xAxis: {
+        type: 'category',
+        data: [{volist name="date" id="d"}{neq name="key" value="0"},{/neq}'{$d}'{/volist}]
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [{
+        data: [{$recharge}],
+        type: 'line',
+		itemStyle : { normal: {label : {show: true}}},
+    }]
+};
+if (option2 && typeof option2 === "object") {
+    myChart.setOption(option2, true);
+}
+       </script>

@@ -1,0 +1,17 @@
+<div class="form-group col-md-{$_layout[$form.name]|default='12'} col-xs-12 {$form.extra_class|default=''}" id="form_group_{$form.name}">
+    <label class="col-xs-12 label-title" for="{$form.name}">{$form.title|htmlspecialchars}</label>
+    <div class="col-sm-12 js-upload-file">
+        <ul class="list-group uploader-list" id="file_list_{$form.name}">
+            {notempty name="form.value"}
+            <li class="list-group-item file-item"><i class="fa fa-file"></i> {$form.value|get_file_name} [<a
+                    href="{$form.value|get_file_url}" class="download-file">下载</a>] [<a
+                    href="javascript:void(0);" class="remove-file">删除</a>]</li>
+            {/notempty}
+        </ul>
+        <input type="hidden" name="{$form.name}" data-multiple="false" data-size="{$form['size']|default=0}" data-ext='{$form["ext"]|default=""}' id="{$form.name}" value="{$form.value|default=''}">
+        <div id="picker_{$form.name}">上传单个文件</div>
+        {notempty name="form.tips"}
+        <div class="help-block">{$form.tips|clear_js}</div>
+        {/notempty}
+    </div>
+</div>

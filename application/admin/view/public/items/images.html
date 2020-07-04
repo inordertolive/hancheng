@@ -1,0 +1,24 @@
+<div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12" id="form_group_{$form.name}">
+     <div class="col-xs-12 label-title" for="{$form.name}">{$form.title|htmlspecialchars}</div>
+    <div class="col-xs-12 js-upload-images">
+        <div id="file_list_{$form.name}" class="uploader-list pull-left">
+            {notempty name="form.value"}
+                {volist name="form['value']|explode=',',###" id="vo"}
+                <div class="file-item thumbnail">
+                    <a class="img-link" data-magnify="gallery" href="{$vo|get_file_url}">
+                        <img src="{$vo|get_thumb}" width="100">
+						<i class="fa fa-fw fa-arrows move-picture"></i>
+					</a>
+					<i class="fa fa-times-circle remove-picture" data-id="{$vo}"></i>
+                </div>
+                {/volist}
+            {/notempty}
+        </div>
+        <input type="hidden" name="{$form.name}" data-multiple="true" data-size="{$form['size']|default=0}" data-ext='{$form["ext"]|default=""}' id="{$form.name}" value="{$form.value|default=''}">
+        <div id="picker_{$form.name}" class="pull-left">载入中...</div>
+		<div class="clearfix"></div>
+        {notempty name="form.tips"}
+        <div class="help-block">{$form.tips|raw}</div>
+        {/notempty}
+    </div>
+</div>

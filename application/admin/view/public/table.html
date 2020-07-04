@@ -1,0 +1,230 @@
+{extend name="$admin_layout" /}
+{block name="style"}
+    {volist name="css_list" id="vo"}
+    <link rel="stylesheet" href="{$vo}?v={:config('asset_version')}">
+    {/volist}
+{/block}
+{block name="content"}
+<div class="row">
+	<div class="col-md-12">
+		{notempty name="page_tips"}
+		<div class="callout callout-info">
+			{$page_tips|raw}
+		</div>
+		{/notempty}
+
+		{notempty name="top_search"}
+		<!-- 独立搜索 -->
+		<div class="box nav-tabs-custom" >
+			<div class="box-body">
+				<div class="tab-pane active">
+					<div class="row">
+						<form action="" method="get" class="marBtm">
+							{volist name="top_search" id="search_val"}
+								{if ($search_val['type'] == 'text')}
+									<div class="col-md-2 col-xs-6">
+										<span class="txt">{$search_val.title}：</span>
+										<input type="text" class="form-control" name="{$search_val.name}" placeholder="{$search_val.tips}" value="{$search_val.value}">
+									</div>
+								{/if}
+								{if ($search_val['type'] == 'date')}
+								<div class="col-md-3 col-xs-6">
+									<span class="txt">{$search_val.title} ：</span>
+									<input type="date" class="form-control js-date" readonly name="{$search_val.name}" placeholder="{$search_val.tips}" value="{$search_val.value}">
+								</div>
+								{/if}
+								{if ($search_val['type'] == 'select')}
+								<div class="col-md-2 col-xs-6">
+									<span class="txt">{$search_val.title}：</span>
+									<select name="{$search_val.name}" class="select2">
+										{volist name="$search_val.extra" id="select_val"}
+											<option value="{$key}" {$search_val.value == $key ? 'selected' : ''}>{$select_val}</option>
+										{/volist}
+									</select>
+								</div>
+								{/if}
+								{if ($search_val['type'] == 'between')}
+									<div class="col-md-1 col-xs-6">
+										<span class="txt">{$search_val.title}：</span>
+										<div class="time-filter">
+											<?php
+												$startName = $search_val['name'].'_start';
+												$endName = $search_val['name'].'_end';
+												$startValue = $$startName;
+												$endValue = $$endName;
+											?>
+											<div class="input-group">
+												<input class="form-control" type="number" name="{$search_val.name}_start" placeholder="{$search_val.tips}" value="{$startValue}">
+												<span class="input-group-addon" style="border: 0">-</span>
+												<input class="form-control" type="number" name="{$search_val.name}_end" placeholder="{$search_val.tips}" value="{$endValue}">
+											</div>
+										</div>
+										<input type="hidden" id="_filter_between" name="_filter_between[]" value="{$search_val.name}">
+									</div>
+								{/if}
+							{/volist}
+							{// 时间段搜索}
+							{notempty name="_filter_time"}
+							<div class="form-inline time-filter">
+								<span class="txt">{$_filter_time.field_title}：</span>
+								<div class="time-filter">
+									<div class="input-daterange input-group" data-date-format="yyyy-mm-dd">
+										<input class="form-control js-date" type="text" id="_filter_time_from" name="_filter_time_from" AUTOCOMPLETE="OFF" value="{$Request.get._filter_time_from ? $Request.get._filter_time_from : $_filter_time.date_start}" placeholder="{$_filter_time.tips_start}">
+										<span class="input-group-addon"><i class="fa fa-chevron-right"></i></span>
+										<input class="form-control js-date" type="text" id="_filter_time_to" name="_filter_time_to" AUTOCOMPLETE="OFF" value="{$Request.get._filter_time_to ? $Request.get._filter_time_to : $_filter_time.date_end}" placeholder="{$_filter_time.tips_end}">
+									</div>
+									<input type="hidden" id="_filter_time" name="_filter_time" value="{$_filter_time.field}">
+								</div>
+							</div>
+							{/notempty}
+							<div class="col-md-2 col-xs-6" style="padding-top: 18px;">
+								<button class="btn btn-success btn-flat" type="submit">搜索</button> <button class="btn btn-warning btn-flat" type="button" onclick="clearinput()">重置</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		{/notempty}
+		<div class="box nav-tabs-custom" {notempty name="tab_nav"} style="border-top:0"{/notempty}> 
+			{notempty name="tab_nav"}
+			<ul class="nav nav-tabs">
+				{volist name="tab_nav['tab_list']" id="tab"}
+				<li {eq name="tab_nav.active" value="$key"}class="active"{/eq}> <a href="{$tab.url}">{$tab.title|htmlspecialchars}</a> </li>
+				{/volist}
+			</ul>
+			{else /}
+			<div class="box-header with-border">
+                <h3 class="box-title">{$page_title|default=""|htmlspecialchars}</h3>
+            </div>
+			{/notempty}
+			<div class="box-body">
+				<div class="tab-pane active">
+					<div class="pb10">
+						<div class="pull-left">
+							{if (!empty($top_button))}
+								{volist name="top_button" id="button"}
+									{$button|raw}
+								{/volist}
+							{/if}
+						</div>
+						{// 搜索框 }
+                                {notempty name="search"}
+                                <div class="pull-right search-bar">
+                                    <input type="hidden" name="search_field" id="search-field" value="{php}echo input('param.search_field', '') == '' ? $search['field_all'] : input('param.search_field');{/php}">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default" id="search-btn" data-toggle="dropdown" type="button" aria-expanded="false">
+                                                不限 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a tabindex="-1" href="javascript:void(0)" data-field="{$search.field_all}">不限</a>
+                                                </li>
+                                                {volist name="search.fields" id="field"}
+                                                <li>
+                                                    <a tabindex="-1" href="javascript:void(0)" data-field="{$key}">{$field|htmlspecialchars}</a>
+                                                </li>
+                                                {/volist}
+                                            </ul>
+                                        </div>
+                                        <div {$search_button ?= 'class="input-group"'}>
+                                            <input type="text" style="border:1px #ccc solid;padding-left:5px;" class="form-control" value="{:input('param.keyword', '')}" data-url="{$search.url}" id="search-input" name="keyword" placeholder="{$search.placeholder}">
+                                            {$search_button ?= '<span class="input-group-btn"><button class="btn btn-default" id="search-submit-btn" type="button">'.($search_button === true ? "搜索" : $search_button).'</button></span>'}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                {/notempty}
+								<div class="clearfix"></div>
+					</div>
+					<table class="table table-builder table-hover table-bordered mb10">
+						<thead>
+						{if (!$hide_checkbox)}
+							<th class="text-center" style="width: 70px;">
+								<input class="minimal-red checkboxCtrl" data-group="ids[]" data-toggle="icheck" type="checkbox">
+							</th>
+							{/if}
+							{volist name="fields" id="field"}
+							<th class="{$field['class']|default=''}">{$field.title}
+							{// 排序功能}
+								{php}
+												if (isset($order_columns[$field['name']])): {/php}
+                                                    {php}
+                                                        $_by = input('param.by') == 'asc' ? 'desc' : 'asc';
+                                                        $_param = array_merge(input('get.'), ['by' => $_by, 'order' => $order_columns[$field['name']]]);
+                                                        if ($_param) {
+                                                            $_get = [];
+                                                            foreach ($_param as $key => $value) {
+                                                                $_get[] = $key. '=' .$value;
+                                                            }
+                                                            $_get = '?'.implode('&', $_get);
+                                                        }
+                                                    {/php}
+                                                    <a href="{$Request.baseUrl}{$_get}" data-toggle="tooltip" data-original-title="排序">
+                                                        {php}
+                                                            if (input('param.order') == $order_columns[$field['name']]) {
+                                                                echo input('param.by') == 'asc' ? '<i class="fa fa-caret-up"></i>' : '<i class="fa fa-caret-down"></i>';
+                                                            } else {
+                                                                echo '<i class="fa fa-sort text-muted"></i>';
+                                                            }
+                                                        {/php}
+                                                    </a>
+								{php}endif;{/php}
+							</th>
+							{/volist}
+						</thead>
+						<tbody>
+						{volist name="row_list" id="row"}
+						<tr> 
+							{if (!$hide_checkbox)}
+							<td class="text-center" style="width: 70px;"><input class="ids minimal-red" data-toggle="icheck" type="checkbox" name="ids[]" value="{$row['checkid']|default=''}"></td>
+							{/if}
+							
+							{volist name="fields" id="column"}
+							<td class="{$column['class']|default=''}"> {php}if(is_array($column['type']) || $column['type'] == '' || $column['type'] == 'btn' || $column['type'] == 'text'):{/php}
+								{$row[$column['name']]|raw}
+								{php}else:{/php}
+								{$row[$column['name'].'__'.$column['type']]|raw}
+								{php}endif;{/php} 
+							</td>
+							{/volist} 
+						</tr>
+						{/volist}
+
+						{empty name="row_list"}
+							<tr class="table-empty"> {php}$colspan = count($fields)+1{/php}
+								<td class="text-center empty-info" colspan="{$colspan}"><i class="fa fa-database"></i> 抱歉，没有更多了 <br></td>
+							</tr>
+						{/empty}
+						</tbody>
+					</table>
+					<div class="data-table-toolbar">
+						<div class="row">
+							<div class="col-sm-12"> {// 分页 }
+								{notempty name="pages"}
+								{$pages|raw}
+								{/notempty}
+								{notempty name="page_info"}
+								<div class="pagination-info pull-left"> 第 {:input('param.page', '1')} 页 / 总计 {$page_info->lastPage()} 页，共 <strong>{$page_info->total()}</strong> 条数据 </div>
+								{/notempty} 
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{/block}
+{block name="script"}
+{volist name="js_list" id="vo"}
+    <script src="{$vo}?v={:config('asset_version')}"></script>
+{/volist}
+<script>
+	function clearinput(){
+		$(".marBtm").find('input').val('');
+		$(".marBtm").find(".select2").val(0).trigger('change');
+	}
+</script>
+{/block}

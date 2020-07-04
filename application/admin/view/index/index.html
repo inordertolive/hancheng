@@ -1,0 +1,9 @@
+{extend name="layout" /}
+{block name="content"}
+	{// 后台首页钩子}
+    <div class="row">
+        {:hook('admin_index')}
+    </div>
+{/block}
+
+{block name="script"}{/block}

@@ -1,0 +1,23 @@
+<div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12" id="form_group_{$form.name}">
+    <div class="col-xs-12 label-title" for="{$form.name}">{$form.title|htmlspecialchars}</div>
+    <input type="hidden" name="{$form.name}" value="{$form.value|default=''}">
+    <div class="col-sm-12">
+        {empty name="form.value"}
+            <div class="form-control-static">暂无数据，无法排序</div>
+        {else/}
+            <div class="dd nestable" data-name="{$form.name}">
+                <ol class="dd-list">
+                    {volist name="form.extra" id="item"}
+                    <li class="dd-item" data-id="{$key}">
+                        <div class="dd-handle dd3-handle">拖拽</div><div class="dd3-content">{$item|htmlspecialchars}</div>
+                    </li>
+                    {/volist}
+                </ol>
+            </div>
+        {/empty}
+
+        {notempty name="form.tips"}
+        <div class="help-block">{$form.tips|raw}</div>
+        {/notempty}
+    </div>
+</div>

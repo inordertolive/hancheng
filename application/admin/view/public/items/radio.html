@@ -1,0 +1,14 @@
+<div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12" id="form_group_{$form.name}">
+    <div class="col-xs-12 label-title" for="{$form.name}" style="margin-bottom: 14px;">{$form.title|htmlspecialchars}</div>
+    <div class="col-xs-12">
+        {volist name="form.extra" id="option"}
+        <label class="pr10">
+            <input type="radio" data-toggle="icheck" name="{$form.name}" id="{$form.name}{$i}" value="{$key}" {php}$key = (string)$key;{/php} {eq name="key" value="$form.value|default=''"}checked{/eq} {$form.attr|default=''}>
+            {$option|htmlspecialchars}
+        </label>
+        {/volist}
+        {notempty name="form.tips"}
+        <div class="help-block">{$form.tips|raw}</div>
+        {/notempty}
+    </div>
+</div>

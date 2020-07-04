@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class=" ">
+<head>
+<meta charset="utf-8">
+<title>{:config('web_site_title')} 接口业务流程</title>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--自适应声明部分-->
+<meta name="applicable-device" content="pc">
+<link rel="stylesheet" type="text/css" href="/static/plugins/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/static/plugins/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="/static/plugins/other/document.css">
+<link rel="stylesheet" href="/static/admin/css/AdminLTE.min.css?v=20180725">
+<link rel="stylesheet" href="/static/admin/css/skins/skin-black.css?v={:config('asset_version')}">
+<link rel="stylesheet" href="/static/admin/css/style.css?v={:config('asset_version')}">
+<script type="text/javascript" src="/static/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/static/plugins/other/clipboard.min.js"></script>
+<script type="text/javascript" src="/static/plugins/nprogress/nprogress.js"></script>
+<script type="text/javascript" src="/static/plugins/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/static/plugins/layer/layer.js"></script>
+<script language="javascript">
+	$(function(){
+		//收缩文档页面左侧菜单
+        let _is_pull = 0;
+        $('.document-pull-left').click(function(){
+            _is_pull = !_is_pull;
+
+            if(_is_pull){
+                $(".book-summary").css("left","-300px");
+                $(".book-body").css("left","0");
+            }else{
+                $(".book-summary").css("left","0");
+                $(".book-body").css("left","300px");
+            }
+        });
+
+		$('.document-summary').on('click', '.load-api-btn', function(){
+			let _this = this;
+			let _apiid = parseInt($(_this).attr('data-id'));
+		}).on('click', 'a[data-type="category"]', function(){
+			$(this).next('.articles').toggle();
+
+			if($(this).children('.fa').eq(0).hasClass('fa-folder-open-o')){
+				$(this).children('.fa').eq(0).addClass('fa-folder-o').removeClass('fa-folder-open-o');
+			}else{
+				$(this).children('.fa').eq(0).addClass('fa-folder-open-o').removeClass('fa-folder-o');
+			}
+		}).on('click', '.load-sub-btn', function () {
+            let _this = this;
+            let _folder_id = parseInt($(_this).attr('data-id'));
+            $('.sub-folder-' + _folder_id).toggle();
+            if($(_this).children('.fa').eq(0).hasClass('fa-folder-open-o')){
+                $(_this).children('.fa').eq(0).addClass('fa-folder-o').removeClass('fa-folder-open-o');
+            }else{
+                $(_this).children('.fa').eq(0).addClass('fa-folder-open-o').removeClass('fa-folder-o');
+            }
+        });
+		//复制地址
+        $("#copy").click(function() {
+			var s = $("#apiurl").text();
+			$(this).attr('data-clipboard-text', s);
+            let _clipboard = new ClipboardJS('#copy');
+            _clipboard.on('success', function(e) {
+                layer.msg('复制成功')
+                return true;
+            });
+
+            _clipboard.on('error', function(e) {
+                layer.msg('复制失败')
+                return false;
+            });
+        });
+
+	});
+	window.onerror=function(){return true;} 
+$(function(){ 
+  headerH = 0;  
+  var h=$(window).height();
+  $("#iframe").height((h-headerH)+"px"); 
+});
+</script>
+</head>
+<body>
+<div class="book">
+	<div class="book-summary">
+		<div id="book-search-input" role="search">
+			<!-- <input type="text" class="api-search-word" placeholder="输入关键词搜索文档"> -->
+			<h4>{:config('web_site_title')} 业务流程<a href="/index/api/" style="float: right;">接口文档</a></h4>
+		</div>
+		<nav>
+			<ul class="summary document-summary">
+				{volist name="list" id="a"}
+				<li class="chapter"> <a href="javascript:;" data-type="category" style="color:#00a65a" data-id="{$a.aid}"><i class="fa fa-folder-open-o" aria-hidden="true"></i><strong>{$a.name}</strong></a>
+					<ul class="articles">
+						{volist name="a.item" id="it"}
+						<li class="chapter" data-id="data-id="{$a.aid}"><a title="{$it.info}" class="load-api-btn {eq name="hash" value="$it['hash']"}active{/eq}" href="{:url('process',['hash'=>$it['hash']])}" data-type="api" data-id="{$a.aid}"><i class="fa fa-file-text-o" aria-hidden="true"></i>步骤{$key+1}-{$it.info} </a> </li>
+						{/volist}
+					</ul>
+				</li>
+				{/volist}
+			</ul>
+		</nav>
+	</div>
+	<div class="book-body">
+		<div class="no-apis"></div>
+		<div class="body-inner">
+			<div class="page-wrapper" role="main">
+				<div class="page-inner">
+					<section class="markdown-section">
+						<h2 class="text-center">{$data['info']}</h2>
+						<div class="box mt20">
+							<div style="padding: 20px;"> <span style="color:red"><b>请求地址</b>：</span> <a href="javascript:;" onclick="dialog()">{:config('web_site_domain')}/api/v1/{$data['hash']}</a> <span class="text-left label label-success">{$data['method_turn']}</span> <span class="text-left label {if $data['status'] == 0 }label-danger{else /}{eq name="$data['isTest']" value='0'}label-success{else /}label-warning{/eq}{/if}"> {eq name="$data['status']" value="0"}{$data['status_turn']}{else /}{$data['isTest_turn']}{/eq} </span>&nbsp;<span class="text-left label label-info" id="copy" style="cursor: pointer;">复制接口地址</span><span style="display:none" id="apiurl">v1/{$data['hash']}</span></div>
+						</div>
+						<div class="box mt20">
+							<div style="padding: 20px;"> <span style="color:red"><b>物理地址</b>：</span> <span>{$data['apiName']}</span></div>
+						</div>
+						<div class="block">
+							{notempty name="data.readme"}
+							<h4 style="padding-bottom:10px;"><b>接口详细说明</b></h4>
+							<div>
+								{$data.readme}
+							</div>
+							{/notempty}
+							{if $data['checkSign'] == 0 && $data['needLogin'] == 0}
+							{else/}
+							<h4 style="padding-bottom:10px;"><b>公共Header请求参数</b></h4>
+							<div class="box no-header">
+								<div class="box-body table-responsive no-padding">
+									<table class="table table-builder table-hover table-bordered table-striped js-table-checkable">
+										<tbody>
+											<tr>
+												<th width="150">参数名字</th>
+												<th width="150">类型</th>
+												<th width="80">是否必须</th>
+												<th width="70">默认值</th>
+												<th>说明</th>
+											</tr>
+											{eq name="data.checkSign" value="1"}
+											<tr>
+												<td>appid</td>
+												<td><span class="label label-success">String[字符串]</span></td>
+												<td class="text-center"><span class="label {if $data['checkSign'] == 0 }label-success{else /}label-danger{/if}"> {if $data['checkSign'] == 0 }选填{else /}必填{/if} </span></td>
+												<td></td>
+												<td>APP请求标识</td>
+											</tr>
+											<tr>
+												<td>signaturenonce</td>
+												<td><span class="label label-success">String[字符串]</span></td>
+												<td class="text-center"><span class="label {if $data['checkSign'] == 0 }label-success{else /}label-danger{/if}"> {if $data['checkSign'] == 0 }选填{else /}必填{/if} </span></td>
+												<td></td>
+												<td>随机字符串,可用UUID+随机数 进行MD5获得</td>
+											</tr>
+											<tr>
+												<td>signature</td>
+												<td><span class="label label-success">String[字符串]</span></td>
+												<td class="text-center"><span class="label {if $data['checkSign'] == 0 }label-success{else /}label-danger{/if}"> {if $data['checkSign'] == 0 }选填{else /}必填{/if} </span></td>
+												<td></td>
+												<td>签名,参考签名算法 <a href="{:url('check')}" target="_blank" class="label label-success">查看签名算法<a></td>
+											</tr>
+											<tr>
+												<td>timestamp</td>
+												<td><span class="label label-success">String[字符串]</span></td>
+												<td class="text-center"><span class="label {if $data['checkSign'] == 0 }label-success{else /}label-danger{/if}"> {if $data['checkSign'] == 0 }选填{else /}必填{/if} </span></td>
+												<td></td>
+												<td>请求时间戳 （北京时间）</td>
+											</tr>
+											{/eq}
+											{eq name="data.needLogin" value="1"}
+											<tr>
+												<td>user-token</td>
+												<td><span class="label label-success">String[字符串]</span></td>
+												<td class="text-center"><span class="label {if $data['needLogin'] == 0 }label-success{else /}label-danger{/if}"> {if $data['needLogin'] == 0 }选填{else /}必填{/if} </span></td>
+												<td></td>
+												<td>user-token用户认证秘钥【请通过登录获取】</td>
+											</tr>
+											{/eq}
+										</tbody>
+									</table>
+								</div>
+							</div>
+							{/if}
+							<h4 style="padding-bottom:10px;"><b>请求参数</b></h4>
+							{empty name="q_field"}
+							<div class="">无</div>
+							{else /}
+							<div class="box no-header">
+								<div class="box-body table-responsive no-padding">
+									<table class="table table-builder table-hover table-bordered table-striped js-table-checkable">
+										<tbody>
+											<tr>
+												<th width="150">参数名字</th>
+												<th width="150">类型</th>
+												<th width="80">是否必须</th>
+												<th width="70">默认值</th>
+												<th>说明</th>
+											</tr>
+										{volist name="$q_field" id="vo"}
+										<tr>
+											<td>{$vo['fieldName']}</td>
+											<td><span class="label label-success">{$vo['dataType_turn']}</span></td>
+											<td class="text-center"><span class="label {if $vo['isMust'] == 0 }label-success{else /}label-danger{/if}"> {$vo['isMust_turn']} </span></td>
+											<td>{$vo['default']}</td>
+											<td>{$vo['info']}</td>
+										</tr>
+										{/volist}
+											</tbody>
+										
+									</table>
+								</div>
+							</div>
+							{/empty}
+							<h4 style="padding-bottom:10px;"><b>返回参数</b></h4>
+							<div class="box no-header">
+								<div class="box-body table-responsive no-padding">
+									<table class="table table-builder table-hover table-bordered table-striped js-table-checkable">
+										<tbody>
+											<tr>
+												<th width="250">返回字段</th>
+												<th width="150">类型</th>
+												<th>说明</th>
+											</tr>
+											<tr>
+												<td>code</td>
+												<td><span class="label label-success">Integer[整数]</span></td>
+												<td>返回码，详情请参阅<a href="{:url('errorlist')}"  target="blank">状态码说明</a></td>
+											</tr>
+											<tr>
+												<td>msg</td>
+												<td><span class="label label-success">String[字符串]</span></td>
+												<td>返回中文状态描述，详情请参阅<a href="{:url('errorlist')}"  target="blank">状态码说明</a></td>
+											</tr>
+											<tr>
+												<td>data</td>
+												<td><span class="label label-success">json</span></td>
+												<td>返回json类型数据</td>
+											</tr>
+											{volist name="$f_field" id="vo"}
+											<tr>
+												<td>├─data.{$vo['fieldName']}</td>
+												<td><span class="label label-success">{$vo['dataType_turn']}</span></td>
+												<td>{$vo['info']}</td>
+											</tr>
+											{/volist}
+											<tr>
+												<td>user</td>
+												<td><span class="label label-success">json</span></td>
+												<td> 返回json类型数据,若你使用了UserToken鉴权，此处透传变动前的会员基础信息
+													详情请参阅<a href="{:url('userlist')}" target="blank">会员信息字段说明</a></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<!-- 
+            	<h5 style="padding-bottom:10px;"><b>data返回参数</b></h5>
+				<div class="box no-header">
+				    <div class="box-body table-responsive no-padding">
+						<table class="table table-builder table-hover table-bordered table-striped js-table-checkable">
+						    <tbody>
+						    	<tr>
+						          	<th width="150">返回字段</th>
+						          	<th width="150">类型</th>
+						          	<th>说明</th>
+						       	</tr>
+						       	{volist name="$f_field" id="vo"}
+						        <tr>
+						          	<td>{$vo['fieldName']}</td>
+						          	<td><span class="label label-success">{$vo['dataType_turn']}</span></td>
+						          	<td>{$vo['info']}</td>
+						        </tr>
+								{/volist}
+						    </tbody>
+						</table>
+				    </div>
+				</div> -->
+							<h4 style="padding-bottom:10px;"><b>返回示例</b></h4>
+							<pre>{$data.returnStr|raw}</pre>
+						</div>
+					</section>
+				</div>
+			</div>
+		</div>
+		{empty name="prev"}
+		<a href="javascript:;" class="navigation navigation-prev"> <i class="fa fa-angle-left" aria-hidden="true"></i> </a> 
+		{else /}
+		<a href="{:url('index',['hash'=>$prev])}" class="navigation navigation-prev"> <i class="fa fa-angle-left" aria-hidden="true"></i> </a> 
+		{/empty}
+		{empty name="next"}
+		<a href="javascript:;" class="navigation navigation-next" style="margin-right: 17px;"> <i class="fa fa-angle-right" aria-hidden="true"></i> </a> 
+		{else /}
+		<a href="{:url('index',['hash'=>$next])}" class="navigation navigation-next" style="margin-right: 17px;"> <i class="fa fa-angle-right" aria-hidden="true"></i> </a> 
+		{/empty}
+	</div>
+</div>
+<script>
+function dialog(hash){
+layer.open({
+	title:'模拟请求',
+  type: 2,
+  area: ['1000px', '700px'],
+  fixed: false, //不固定
+  maxmin: true,
+  shadeClose:true,
+  content: "{:config('web_site_domain')}/index/api/request?hash={$data['hash']}"
+});
+}
+</script>
+</body>
+</html>

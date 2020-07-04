@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0,user-scalable=0">
+{block name="page-title"}<title>{$page_title|default='会员中心'} | {:config('web_site_title')}</title>{/block}
+<link rel="stylesheet" href="__PLUG__/bootstrap/css/bootstrap.min.css?v={:config('asset_version')}">
+<link rel="stylesheet" href="__PLUG__/font-awesome/css/font-awesome.min.css?v={:config('asset_version')}">
+<link rel="stylesheet" href="__PLUG__/nprogress/nprogress.css?v={:config('asset_version')}">
+<link rel="stylesheet" href="__PLUG__/icheck/all.css?v={:config('asset_version')}">
+<link rel="stylesheet" href="__ADMIN_CSS__/AdminLTE.min.css?v={:config('asset_version')}">
+<link rel="stylesheet" href="__PLUG__/bootstrap3-dialog/css/bootstrap-dialog.css?v={:config('asset_version')}">
+<link rel="stylesheet" href="__PLUG__/jquery-select2/css/select2.css?v={:config('asset_version')}">
+<link rel="stylesheet" href="__PLUG__/jquery-select2/css/select2-bootstrap.css?v={:config('asset_version')}">
+<link rel="stylesheet" href="__PLUG__/webuploader/webuploader.css?v={:config('asset_version')}">
+<link rel="stylesheet" href="__PLUG__/magnify/jquery.magnify.min.css?v={:config('asset_version')}">
+<link rel="stylesheet" href="__PLUG__/jqueryToast/css/toast.css?v={:config('asset_version')}">
+<link rel="stylesheet" href="__PLUG__/wang-editor/css/wangEditor.min.css?v={:config('asset_version')}">
+<link rel="stylesheet" href="__PLUG__/bootstrap3-editable/css/bootstrap-editable.css?v=20181115006">
+{block name="style"}{/block}
+<link rel="stylesheet" href="__ADMIN_CSS__/skins/skin-aliyun.css?v={:config('asset_version')}">
+<link rel="stylesheet" href="__ADMIN_CSS__/style.css?v={:config('asset_version')}">
+</head>
+<body class="hold-transition skin-aliyun fixed sidebar-mini">
+<!-- <div id="loading"><div class="loading-box"><i class="fa fa-2x fa-fw fa-spinner fa-spin"></i></div></div> -->
+<div class="wrapper">
+	{empty name="layer"}
+	<header class="main-header"> 
+		<a href="/admin.php" class="logo hidden-xs"> 
+		<span class="logo-mini"></span> 
+		<span class="logo-lg"><img src="__ADMIN_IMG__/logo_xs.png" style="width:80%" alt=""></span></a> 
+		<nav class="navbar navbar-static-top"> 
+			<a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button"> <span class="sr-only">打开/隐藏</span> </a>
+			<div class="profile_details_left"><!--notifications of menu start -->
+                <ul class="nav navbar-nav hidden-xs">
+                    {notempty name="topMenus"}
+                    {volist name="topMenus" id="menu"}
+                    <li class="dropdown head-dpdn">
+                        <a href="{$menu['url_value']}" class="dropdown-toggle {$menu['aid'] == $location[0]['aid'] ?= 'active'}"><i class="{$menu.icon}"></i> {$menu.title}</a>
+                    </li>
+                    {/volist}
+                    {/notempty}
+                </ul>
+				<ul class="nav navbar-nav">
+					<li class="dropdown head-dpdn hidden-lg hidden-md">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="modal" data-target="#apps-modal"><i class="fa fa-fw fa-th-large"></i> 模块列表</a>
+                    </li>
+				</ul>
+            </div>
+			<div class="navbar-custom-menu hidden-xs">
+				<ul class="nav navbar-nav">
+					<!-- <li><a href="/" class="dropdown-toggle" target="_blank"> <i class="fa fa-fw fa-home"></i> 网站首页 </a></li> -->
+					<li><a href="javascript:void(0);" class="dropdown-toggle page-reload"> <i class="fa fa-fw fa-refresh"></i> 刷新页面 </a></li>
+					<!-- <li class="dropdown notifications-menu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-th-large"></i> 消息 <span class="label label-warning">2</span> </a>
+						<ul class="dropdown-menu">
+							<li class="header">您有2条未读信息</li>
+							<li> 
+								<ul class="menu">
+									<li> <a href="#"> <i class="fa fa-users text-aqua"></i> 这是第一条信息 </a> </li>
+									<li> <a href="#"> <i class="fa fa-warning text-yellow"></i> 上面那条把我的位置占了 </a> </li>
+								</ul>
+							</li>
+							<li class="footer"><a href="#">阅读所有</a></li>
+						</ul>
+					</li> -->
+					<li class="dropdown user user-menu"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img src="{$uinfo.head_img}" class="user-image" alt=""> <span class="hidden-xs">{$uinfo.user_nickname}</span> </a>
+						<ul class="dropdown-menu">
+					
+							<li class="user-header"> <img src="{$uinfo.head_img}" class="img-circle" alt="User Image">
+								<p> {$uinfo.user_nickname} - 控制中心 </p>
+							</li>
+							<li class="user-footer">
+								<div class="pull-left"> <a href="{:url('user/index/setting')}" class="btn btn-default btn-flat">个人设置</a> </div>
+								<div class="pull-right"> <a href="{:url('user/login/signout')}" class="btn btn-default btn-flat">退出</a> </div>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+	{/empty}
+	{empty name="layer"}
+	<aside class="main-sidebar"> 
+		
+		<section class="sidebar"> 
+			
+			<!-- <form action="#" method="get" class="sidebar-form">
+				<div class="input-group">
+					<input type="text" name="q" class="form-control" placeholder="Search...">
+					<span class="input-group-btn">
+					<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i> </button>
+					</span> </div>
+			</form> -->
+
+			<ul class="sidebar-menu" data-widget="tree">
+				<li class="header">菜单导航</li>
+				{notempty name="sidebarMenus"}
+				{volist name="sidebarMenus" id="menu"}
+                        <li class="treeview {$menu['aid'] == $location[1]["aid"]?='active'}">
+							{notempty name="menu.url_value"}
+							<a class="treeview {$menu['aid'] == $location[1]["aid"]?='active'}" href="{$menu.url_value}"><i class="{$menu.icon}"></i><span>{$menu.title}</span>
+								<i class="fa fa-angle-left pull-right"></i></a>
+							{else/}
+							<a class="nav-submenu" data-toggle="nav-submenu" href="javascript:void(0);">
+								<i class="{$menu.icon}"></i><span>{$menu.title}</span>
+								<i class="fa fa-angle-left pull-right"></i>
+							</a>
+							{/notempty}
+							{notempty name="menu['child']"}
+							<ul class="treeview-menu">
+								{volist name="menu['child']" id="submenu"}
+								<li>
+									<a {if(isset($location[2]) && $submenu['aid'] == $location[2]["aid"])}class="active"{/if}
+									href="{$submenu.url_value}" target="{$submenu.url_target}"><i class="{$submenu.icon}"></i>{$submenu.title}</a>
+								</li>
+								{/volist}
+							</ul>
+							{/notempty}
+						</li>
+						{/volist}
+				{/notempty}
+			</ul>
+		</section>
+	</aside>
+	{/empty}
+	<div class="content-wrapper" {eq name="layer" value="1"}style="padding-top:0px;margin-left:0"{/eq}> 
+		{empty name="layer"}
+		<div class="content-header">
+			<ol class="breadcrumb">
+				{notempty name="location"}
+                {volist name="location" id="v"}
+                <li><a href="{notempty name='$v["url_value"]'}{$v.url_value|url}{else/}javascript:void(0);{/notempty}">{$v.title}</a></li>
+                {/volist}
+                {/notempty}
+			</ol>
+		</div>
+		{/empty}
+		<div class="content" {eq name="layer" value="1"}style="padding-bottom:0px;"{/eq}>
+            {// 主体内容}
+			{:hook('page_tips')}
+            {block name="content"}{/block}
+		</div> 
+	</div>
+	{empty name="layer"}
+	<footer class="main-footer hidden-xs">
+		<div class="pull-right"> LwwanPHP V1.0.0 Copyright &copy; 2018.星辰工作室 All rights reserved.</div>
+	</footer>
+	{/empty}
+	<div class="control-sidebar-bg"></div>
+</div>
+<div class="modal fade" id="apps-modal" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">所有模块</h4>
+              </div>
+              <div class="modal-body">
+                 <div class="row text-center">
+                        {notempty name="topMenus"}
+                        {volist name="topMenus" id="menu"}
+                        <div class="col-xs-6 col-sm-3">
+                            <a class="btn btn-app {$menu['id'] == $location[0]['id'] ?= 'bg-navy'}" href="{$menu['url_value']}" target="{$menu['url_target']}">
+                                <div class="block-content text-white">
+                                    <i class="{$menu.icon} fa-2x"></i>
+                                    <div class="font-w600 push-15-t push-15">{$menu.title}</div>
+                                </div>
+                            </a>
+                        </div>
+                        {/volist}
+                        {/notempty}
+                    </div>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+</div>
+<script type="text/javascript">
+	var lwwan = {
+		'file_upload_url': '/admin.php{$file_upload_url ? $file_upload_url : url("admin/upload/save", ["dir" => "files", "module" => request()->module()])}',
+        'image_upload_url': '/admin.php{$image_upload_url ? $image_upload_url : url("admin/upload/save", ["dir" => "images", "module" => request()->module()])}',
+		'WebUploader_swf': '__PLUG__/webuploader/Uploader.swf',
+		'upload_check_url': '/admin.php{$upload_check_url ? $upload_check_url : url("admin/upload/check")}',
+		'triggers': {$triggers|default=[]|json_encode}, // 触发器集合
+		'field_hide': '{$field_hide|default=""}', // 需要隐藏的字段
+        'field_values': '{$field_values|default=""}',
+		'_field_clear': {$field_clear|default=[]|json_encode},
+		'quick_edit_url': '/admin.php{$quick_edit_url ? $quick_edit_url : url("quickEdit")}',
+		'curr_url': '{:url("", $Request.route)}',
+        'curr_params': {$Request.param|json_encode|raw},
+		'get_level_data': '/admin.php{:url("admin/index/getLevelData")}',
+	}
+</script>
+<script src="__PLUG__/jquery/jquery.min.js?v={:config('asset_version')}"></script>
+<script src="__PLUG__/nprogress/nprogress.js?v={:config('asset_version')}"></script>
+<script src="__PLUG__/bootstrap/js/bootstrap.min.js?v={:config('asset_version')}"></script>
+<script src="__PLUG__/jquery-slimscroll/jquery.slimscroll.min.js?v={:config('asset_version')}"></script>
+<script src="__PLUG__/icheck/icheck.min.js?v={:config('asset_version')}"></script>
+<script src="__PLUG__/jqueryToast/js/toast.js?v={:config('asset_version')}"></script>
+<script src="__PLUG__/bootstrap3-dialog/js/bootstrap-dialog.min.js?v={:config('asset_version')}"></script>
+<script src="__PLUG__/jquery-select2/js/select2.full.min.js?v={:config('asset_version')}"></script>
+<script src="__PLUG__/jquery-select2/js/i18n/zh-CN.js?v={:config('asset_version')}"></script>
+<script src="__PLUG__/webuploader/webuploader.min.js?v={:config('asset_version')}"></script>
+<script src="__PLUG__/magnify/jquery.magnify.min.js?v={:config('asset_version')}"></script>
+<script src="__PLUG__/other/jquery-ui.min.js?v={:config('asset_version')}"></script>
+<script src="__PLUG__/nice-validator/jquery.validator.min.js?local=zh-CN?v={:config('asset_version')}"></script>
+<script src="__PLUG__/wang-editor/js/wangEditor.min.js?v={:config('asset_version')}"></script>
+<script src="__PLUG__/bootstrap3-editable/js/bootstrap-editable.js?v={:config('asset_version')}"></script>
+<script src="__PLUG__/layer/layer.js?v={:config('asset_version')}"></script>
+<script src="__ADMIN_JS__/adminlte.js?v={:config('asset_version')}"></script>
+<script src="__ADMIN_JS__/stars.js?v={:config('asset_version')}"></script>
+<script src="__ADMIN_JS__/form.js?v={:config('asset_version')}"></script>
+<script src="__ADMIN_JS__/table.js?v={:config('asset_version')}"></script>
+<script type="text/javascript">
+NProgress.start();
+$(function(){
+	setTimeout(function () {
+		NProgress.done();
+	}, 200);
+})
+</script>
+{block name="script"}{/block}
+</body>
+</html>

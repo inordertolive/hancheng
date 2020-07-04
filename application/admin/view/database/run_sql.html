@@ -1,0 +1,77 @@
+{extend name="layout" /}
+{block name="content"}
+<div class="row">
+	<div class="col-xs-12">
+		<div class="box">
+			<div class="box-header with-border">
+				<h3 class="box-title">{$page_title}</h3>
+			</div>
+			<div class="box-body">
+				<div class="tab-pane active">
+					<div class="block-content row"> 
+							<div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12" id="form_group_sql">
+								<div class="col-xs-12 label-title" for="sql_query">查询SQL</div>
+								<div class="col-xs-12">
+									<textarea class="form-control" id="sql_query" rows="7" name="sql_query" placeholder="请输入SQL语句"></textarea>
+									<div class="help-block">每行一条语句，每行请用;结尾，只支持select查询</div>
+								</div>
+							</div>
+							<div class="form-group col-md-12 col-xs-12">
+								<div class="col-xs-12">
+									<button class="btn btn-primary btn-flat db-run" type="botton" autocomplete="on"> 提交 </button>
+									<button class="btn btn-default btn-flat" type="button" onclick="javascript:history.back(-1);return false;"> 返回 </button>
+								</div>
+							</div>
+							<div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12" id="form_group_sql">
+								<div class="col-xs-12 label-title" for="sql_execute">执行SQL</div>
+								<div class="col-xs-12">
+									<textarea class="form-control" id="sql_execute" rows="7" name="sql_execute" placeholder="请输入SQL语句"></textarea>
+									<div class="help-block">每行一条语句，每行请用;结尾，只支持update,insert操作</div>
+								</div>
+							</div>
+							<div class="form-group col-md-12 col-xs-12">
+								<div class="col-xs-12">
+									<button class="btn btn-primary btn-flat db-run1" type="botton" autocomplete="on"> 提交 </button>
+									<button class="btn btn-default btn-flat" type="button" onclick="javascript:history.back(-1);return false;"> 返回 </button>
+								</div>
+							</div>
+					</div>
+					<div class="block-content" style="padding:0 15px"> 
+						<pre id="result">
+							
+						</pre>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /应用列表 --> 
+	</div>
+</div>
+{/block}
+
+{block name="script"} 
+<script type="text/javascript">
+        $(".db-run").click(function(){
+            var self = this;
+            $.post(self.href,{sql:$('#sql_query').val(), type:1}, success);
+        
+            function success(data){
+                if(data.code){
+					Stars.notify('执行成功', 'success');
+                } 
+				$('#result').html(JSON.stringify(data.data, null, "\t"));
+            }
+        });
+		$(".db-run1").click(function(){
+            var self = this;
+            $.post(self.href,{sql:$('#sql_execute').val(), type:2}, success);
+        
+            function success(data){
+                if(data.code){
+                    Stars.notify('执行成功', 'success');
+                } 
+				$('#result').html(JSON.stringify(data.msg, null, "\t"));
+            }
+        });
+</script> 
+{/block}

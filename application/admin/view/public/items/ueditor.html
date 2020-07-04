@@ -1,0 +1,9 @@
+<div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12" id="form_group_{$form.name}">
+    <label class="col-xs-12" for="{$form.name}">{$form.title|htmlspecialchars}</label>
+    <div class="col-xs-12">
+        <script id="{$form.name}" class="js-ueditor" name="{$form.name}" type="text/plain">{$form.value|raw|default=''}</script>
+        {notempty name="form.tips"}
+        <div class="help-block">{$form.tips|raw}</div>
+        {/notempty}
+    </div>
+</div>

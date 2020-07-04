@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class=" ">
+<head>
+<meta charset="utf-8">
+<title>{:config('web_site_title')} 接口文档</title>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--自适应声明部分-->
+<meta name="applicable-device" content="pc">
+<link rel="stylesheet" type="text/css" href="/static/plugins/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/static/plugins/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="/static/plugins/other/document.css">
+<link rel="stylesheet" href="/static/admin/css/AdminLTE.min.css?v=20180725">
+<link rel="stylesheet" href="/static/admin/css/skins/skin-black.css?v={:config('asset_version')}">
+<link rel="stylesheet" href="/static/admin/css/style.css?v={:config('asset_version')}">
+<script type="text/javascript" src="/static/plugins/jquery/jquery.min.js"></script>
+</head>
+<body>
+<div class="row">
+	<div class="col-md-12"> 
+		<div class="box pd20">
+			<span class="text-danger">签名算法:</span> 将所有待请求的数据进行KEY字典排序 然后获得url字符串(String: a=1&b=2) ，再使用appsecret私钥对字符串进行SHA1加密即可获得签名, appsecret 作为私钥不得提交。
+		</div>
+		<div class="box">
+			<div class="box-header with-border">
+                <h3 class="box-title">签名验证</h3>
+            </div>
+			<div class="box-body">
+			<form class="form row" action="{:url('')}" method="post">
+				<div class="form-group col-md-12 col-xs-12">
+					<label class="col-md-12">appsecret</label>
+					<div class="col-md-12">
+						<input type="text" name="app_secret" class="form-control" placeholder="请输入你的私钥" value="{$app_secret}" data-rule="required"/>
+					</div>
+				</div>
+				<div class="form-group col-md-12 col-xs-12">
+					<label class="col-md-12">签名字符串</label>
+					<div class="col-md-12">
+						<textarea type="text" name="keyword" class="form-control" placeholder="请输入待签名的字符串" data-rule="required">{$keyword}</textarea>
+					</div>
+				</div>
+				<div class="form-group col-md-12 col-xs-12">
+					<div class="col-xs-12">
+						<button class="btn btn-minw btn-primary btn-flat" type="submit">立即验证</button>
+					</div>
+				</div>
+				<div class="form-group col-md-12 col-xs-12">
+					<div class="col-xs-12"> 结果:<b>{$code} </b> </div>
+				</div>
+			</form>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

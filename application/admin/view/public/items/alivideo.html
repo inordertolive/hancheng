@@ -1,0 +1,22 @@
+<div class="form-group col-md-{$_layout[$form.name]|default='12'} col-xs-12 {$form.extra_class|default=''}" id="form_group_{$form.name}" data-upvideo data-token="<?php echo \think\facade\Request::instance()->token('osstoken', 'md5');?>">
+    <label class="col-xs-12" for="{$form.name}">{$form.title|htmlspecialchars}</label>
+    <div class="col-sm-12" id="container">
+        <ul class="list-group" >
+			<li class="list-group-item file-item" data-upvideo-show>
+				{notempty name="form.value"}			
+					<video src="{$form.value|get_file_url}" controls="controls" style="width:200px">
+					您的浏览器不支持 video 标签。
+					</video>
+					<p>{$form.value|get_file_name}</p>				  
+				{/notempty}
+			</li>
+            
+			<li class="list-group-item file-item" data-upvideo-name>提示:只能上传一个视频</li>
+        </ul>
+        <input type="hidden" name="{$form.name}" value="{$form.value|default=''}" data-upvideo-val>
+        <a href="javascript:void(0);" class='btn btn-minw btn-primary' style=" position:relative; overflow:hidden;">选择视频
+			<input type="file"  data-upvideo-file  style=" position:absolute; z-index:1;  width:100%;  font-size:50rem;  opacity:0;  cursor:pointer; top:0;left:0" accept="video/mov,video/mp4"/>
+		</a> 
+		<a href="javascript:void(0);" class='btn btn-minw btn-primary' data-upvideo-up >开始上传</a>
+    </div>
+</div>

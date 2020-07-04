@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<title>{:config('web_site_title')} - 管理员登录</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="__PLUG__/jqueryToast/css/toast.css">
+<link rel="stylesheet" href="__ADMIN_CSS__/style.css">
+<style type="text/css">
+html, body {width: 100%;height: 100%;overflow:hidden;}
+
+body {background:url(/static/admin/images/bg.jpg) no-repeat ;background-size:cover;padding: 0;margin: 0;font-size:14px;}
+.logo{width: 279px;height:47px;margin-left:190px;margin-bottom:20px;}
+#loginbox {  width: 600px;height: 470px;margin: 0 auto;position: relative;margin-top: -400px;top: 50%;}
+#loginbox .form-vertical{height:550px;padding-top:280px;padding-left:80px;background: url(/static/admin/images/2_07.png) no-repeat;    background-size: 100%;}
+#loginbox .control-group{margin-top:0px;}
+#loginbox .add-on{color:#ffffff;font-weight:bold;width:60px;display:inline-block;text-align:right;}
+#loginbox input{border: 1px solid #eee; border-radius: 3px; color: #555555; display: inline-block; font-size: 13px; height: 30px; line-height: 30px; margin-bottom: 15px; padding: 2px; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset; transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;width:260px;    background: #fff;}
+#loginbox .form-actions{background:url(/static/admin/images/5_03.png) no-repeat;width:200px;height:200px;position: relative;top:-134px;left:380px;cursor:pointer;}
+#loginbox .form-actions:hover{background-position:-228px 0px;}
+
+</style>
+</head>
+
+<body>
+<div id="loginbox">
+  <div class='logo'></div>
+  <form action="{:url()}" method="post" class="form-vertical" id="login" data-validator-option="{timely:0, theme:'bootstrap'}">
+  
+  <div class="control-group">
+    <div class="controls">
+      <div class="input-prepend"> <span class="add-on">账号：</span>
+        <input type="text" name='username' id='username' placeholder="用户名" />
+      </div>
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <div class="input-prepend"> <span class="add-on">密码：</span>
+        <input type="password" name='password' id='password' placeholder="密码" />
+      </div>
+    </div>
+  </div>
+  {notempty name="Think.config.captcha_signin"}
+  <div class="control-group">
+    <div class="controls">
+      <div class="input-prepend"> <span class="add-on">验证码：</span>
+        <input type="text" style='width:115px;' name="captcha" placeholder="验证码" />
+        <label class="img"> <img style='vertical-align:middle;cursor:pointer;height:35px;border-radius: 3px;' class='verifyImg' src='{:captcha_src('admin')}' title='刷新验证码' /> </label>
+      </div>
+    </div>
+  </div>
+{/notempty}
+  <div class="form-actions"><input type="submit"  style="background: none;border: 0;box-shadow: none;width: 100%;height: 100%;" name="登 录" value=""></div>
+  </form>
+</div>
+<script src="__PLUG__/jquery/jquery.min.js"></script>
+<script src="__PLUG__/jqueryToast/js/toast.js"></script>
+<script src="__PLUG__/nice-validator/jquery.validator.min.js?local=zh-CN"></script>
+<script src="__ADMIN_JS__/stars.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#login').on('valid.form', function (e) {
+            var $data = $(this).serialize();
+
+            //Stars.loading();
+            $.post($(this).attr('action'), $data, function (res) {
+                //Stars.loading('hide');
+                if (res.code) {
+                    Stars.notify('登录成功，页面即将跳转~', 'success');
+                    setTimeout(function () {
+                        location.href = res.url;
+                    }, 1500);
+                } else {
+                    if (res.msg == '验证码错误或失效') {
+                        $('#captcha').click();
+                    }
+                    Stars.notify(res.msg, 'danger','fa fa-bell-slash');
+                }
+            }).fail(function () {
+                //Stars.loading('hide');
+                Stars.notify('服务器错误~', 'danger');
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

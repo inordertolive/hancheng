@@ -1,0 +1,16 @@
+{block name="content"}
+			<table class="table table-hover table-bordered">
+			    <tbody>
+			    	<tr>
+			          	<th width="70">会员字段</th>
+			          	<th>中文说明</th>
+			        </tr>
+			        {volist name="$userFields" id="vo"}
+			        <tr>
+			          	<td>{$key}</td>
+			          	<td>{$vo}</td>
+			        </tr>
+			        {/volist}
+			    </tbody>
+			</table>
+{/block}

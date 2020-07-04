@@ -1,0 +1,79 @@
+{extend name="layout" /}
+{block name="content"}
+<div class="row">
+	<div class="tab-pane active">
+		<div class="col-lg-3 col-xs-6"> <a class="block block-bordered block-link-hover3 text-center" href="javascript:void(0)">
+			<div class="block-content block-content-full bg-gray-lighter border-b">
+				<div class="h1 font-w700"><span class="text-muted">¥</span>0</div>
+			</div>
+			<div class="block-content block-content-full block-content-mini"> 总下载量 </div>
+			</a> </div>
+		<div class="col-lg-3 col-xs-6"> <a class="block block-bordered block-link-hover3 text-center" href="javascript:void(0)">
+			<div class="block-content block-content-full bg-gray-lighter border-b">
+				<div class="h1 font-w700"><span class="text-muted">¥</span>0</div>
+			</div>
+			<div class="block-content block-content-full block-content-mini"> 总贡献分 </div>
+			</a> </div>
+		<div class="col-lg-3 col-xs-6"> <a class="block block-bordered block-link-hover3 text-center" href="javascript:void(0)">
+			<div class="block-content block-content-full bg-gray-lighter border-b">
+				<div class="h1 font-w700"><span class="text-muted">¥</span>0</div>
+			</div>
+			<div class="block-content block-content-full block-content-mini"> 已提现 </div>
+			</a> </div>
+		<div class="col-lg-3 col-xs-6"> <a class="block block-bordered block-link-hover3 text-center" href="javascript:void(0)">
+			<div class="block-content block-content-full bg-gray-lighter border-b">
+				<div class="h1 font-w700"><span class="text-muted">¥</span>0</div>
+			</div>
+			<div class="block-content block-content-full block-content-mini"> 余额 </div>
+			</a> </div>
+		<div class="col-lg-12 col-xs-12 mt20">
+		<table class="table table-builder table-hover table-bordered table-striped mb10" style="background:#fff">
+			<thead>
+				<tr>
+					<th>分类</th>
+					<th>应用</th>
+					<th>售价</th>
+					<th>客户</th>
+					<th>购买时间</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td colspan="5"><p class="text-center">暂无记录</p></td>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+	</div>
+</div>
+{/block}
+{block name="style"}
+<style>
+.block.block-bordered {
+    border: 1px solid #e9e9e9;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+	    display: block;
+}
+.block-content p, .block-content .push, .block-content .block, .block-content .items-push > div {
+    margin-bottom: 20px;
+}
+.block-content.block-content-full {
+    padding-bottom: 20px;
+}
+.border-b {
+    border-bottom: 1px solid #e9e9e9;
+}
+.block-content {
+    margin: 0 auto;
+    padding: 20px 20px 1px;
+    max-width: 100%;
+    overflow-x: visible;
+    -webkit-transition: opacity 0.2s ease-out;
+    transition: opacity 0.2s ease-out;
+}
+.bg-gray-lighter {
+    background-color: #f9f9f9;
+}
+</style>
+{/block}

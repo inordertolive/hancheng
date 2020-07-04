@@ -1,0 +1,149 @@
+{extend name="$admin_layout" /}
+
+{block name="style"}
+<style type="text/css">
+div{overflow:hidden;}
+</style>
+<link rel="stylesheet" href="__PLUG__/zTree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+{/block}
+
+{block name="content"}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box nav-tabs-custom" style="border-top:0">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#tab1" data-toggle="tab">角色信息</a>
+                    </li>
+                    <li>
+                        <a href="#tab2" data-toggle="tab">访问授权</a>
+                    </li>
+                </ul>
+
+                <form name="form" id="form" method="post">
+					{:token()}
+                    <input type="hidden" name="id" value="{$info.id}">
+					<input type="hidden" name="pid" value="{$info.pid}">
+					<input type="hidden" name="menu_auth" id="menu_auth" value="{:implode(',',$info['menu_auth'])}"/>
+                    <div class="box-body tab-content">
+                        <div class="tab-pane fade in active push-20" id="tab1">
+                            <div class="form-group">
+                                <div class="col-xs-12 label-title">角色名称</div>
+                                <div class="col-sm-12">
+                                    <input class="form-control" type="text" id="title" name="name" value="{$info.name}" data-rule="required;" data-msg-required="请输入角色名称" placeholder="请输入角色名称">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12 label-title">角色描述</div>
+                                <div class="col-xs-12">
+                                    <textarea class="form-control" id="description" rows="7" name="description" placeholder="请输入角色描述">{$info.description}</textarea>
+                                </div>
+                            </div>
+							<div class="form-group">
+                                <label class="col-xs-12" for="pid">默认模块</label>
+                                <div class="col-sm-12">
+                                    <select class="form-control" id="default_menu" name="default_menu">
+                                        {volist name="menu_list" id="module"}
+                                        <option value="{$key}" {eq name="info.default_menu" value="$key"}selected{/eq}>{$module}</option>
+                                        {/volist}
+                                    </select>
+                                    <div class="help-block">该角色登录后，默认跳转的模块，该角色必须有该模块的访问权限。</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12 label-title">状态</div>
+                                <div class="col-xs-12">
+                                    <label class="pr10">
+                                        <input type="radio" name="status" id="status1" data-toggle="icheck" value="0" {eq name="$info['status']" value="0"}checked{/eq}>
+                                        <span></span> 禁用</label>
+                                    <label>
+                                        <input type="radio" name="status" id="status2" data-toggle="icheck" value="1" {eq name="$info['status']" value="1"}checked{/eq}>
+                                        <span></span> 正常</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12 label-title">排序</div>
+                                <div class="col-sm-12">
+                                    <input class="form-control" type="text" id="sort" name="sort" value="{$info.sort}" placeholder="请输入排序">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade auth-node" id="tab2">
+                            <ul id="ztree" class="push ztree"></ul>
+                        </div>
+                        <div class="col-xs-12">
+                            <button type="button" class="btn btn-minw btn-primary btn-flat ajax-posts">
+                                确定
+                            </button>
+                            <button class="btn btn-default btn-flat" type="button" onclick="javascript:history.back(-1);return false;">
+                                返回
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{/block}
+
+{block name="script"}
+<script type="text/javascript" src="__PLUG__/zTree/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="__PLUG__/zTree/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" >
+
+    var setting = {
+        view: {
+            showIcon: false
+        },
+        check: {
+            enable: true
+        },
+        data: {
+            key: {
+                name:"title",
+                url:"url_value"
+            },
+            simpleData: {
+                enable: true,
+                idKey: "aid",
+                pIdKey: "pid",
+                rootPId: 0
+            }
+        }
+    };
+
+    var zNodes ={:json_encode($menus)};
+
+    $(document).ready(function(){
+        var treeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
+        treeObj.expandAll(true);//默认展开
+
+        $(".ajax-posts").on('click',function(){
+            var nodes = treeObj.getCheckedNodes(true)
+            treedata=[];
+            for (var i = 0; i < nodes.length; i++) {
+                treedata[i] = nodes[i].aid;
+            }
+			$('#menu_auth').val(treedata);
+			
+				var $data = $('#form').serialize();
+				Stars.loading();
+				$(".ajax-posts").attr('disabled',true);
+				$.post("{:url()}", $data, function (res) {
+					Stars.loading('hide');
+					if (res.code) {
+						Stars.notify(res.msg+'~页面即将跳转~', 'success' ,'fa fa-check');
+						setTimeout(function () {
+							location.href = res.url;
+						}, 1000);
+					} else {
+						Stars.notify(res.msg, 'danger','fa fa-bell-slash');
+					}
+				}).fail(function () {
+					Stars.loading('hide');
+					Stars.notify('服务器错误~', 'danger');
+				});
+        });
+    });
+</script>
+{/block}

@@ -1,0 +1,99 @@
+{extend name="$admin_layout" /}
+{block name="content"}
+<div class="row">
+	<div class="col-md-12">
+		<div class="box nav-tabs-custom" >
+			<div class="box-body">
+				<div class="tab-pane active">
+					<div class="row">
+						<form action="" method="get">
+							<div class="col-md-2 col-xs-6">
+								<input type="text" class="form-control" name="username" placeholder="请输入账号" value="{$map.user_name}">
+							</div>
+							<div class="col-md-2 col-xs-6">
+								<input type="text" class="form-control" name="nickname" placeholder="请输入昵称" value="{$map.user_nickname}">
+							</div>
+							<div class="col-md-2 col-xs-6">
+								<input type="text" class="form-control" name="mobile" placeholder="请输入手机号" value="{$map.mobile}">
+							</div>
+							<div class="col-md-2 col-xs-6">
+								<select name="sex" class="select2"><option value="">请选择</option><option value="0" {eq name="map.sex" value="0"}selected{/eq}>保密</option><option value="1" {eq name="map.sex" value="1"}selected{/eq}>男</option><option value="2" {eq name="map.sex" value="2"}selected{/eq}>女</option></select>
+							</div>
+							<div class="col-md-2 col-xs-6">
+								<button class="btn btn-success btn-flat" type="submit">搜索</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="box nav-tabs-custom" >
+			<div class="box-header with-border">
+				<h3 class="box-title">会员列表</h3>
+			</div>
+			<div class="box-body">
+				<div class="tab-pane active">
+					<div class="pb10"> 
+					<a title="批量启用" href="{:url('user/index/setstatus',['type'=>enable])}" icon="fa fa-check-circle pr5" class="btn btn-sm mr5 btn-default btn-flat ajax-post confirm" target-form="ids"><i class="fa fa-check-circle pr5"></i> 批量启用</a> 
+					<a title="批量禁用" href="{:url('user/index/setstatus',['type'=>disable])}" icon="fa fa-ban pr5" class="btn btn-sm mr5 btn-default btn-flat ajax-post confirm" target-form="ids"><i class="fa fa-ban pr5"></i> 批量禁用</a> 
+					</div>
+					<table class="table table-builder table-hover table-bordered table-striped mb10">
+						<thead>
+						<th class="text-center" style="width: 70px;"> <input class="minimal-red checkboxCtrl" data-group="ids[]" data-toggle="icheck" type="checkbox">
+							</th>
+							<th class="">ID</th>
+							<th class="">账号</th>
+							<th class="">昵称</th>
+							<th class="">头像</th>
+							<th class="">性别</th>
+							<th class="">手机号</th>
+							<th class="">会员余额</th>
+							<th class="">会员积分</th>
+							<th class="">会员等级</th>
+							<th class="">会员类型</th>
+							<th class="">累计消费金额</th>
+							<th class="">累计获取积分</th>
+							<th class="text-center">操作</th>
+								</thead>
+						<tbody>
+							{volist name="data_list" id="u"}
+							<tr>
+								<td class="text-center" style="width: 70px;"><input class="ids minimal-red" data-toggle="icheck" type="checkbox" name="ids[]" value="{$u.id}"></td>
+								<td class=""> {$u.id} </td>
+								<td class=""> {$u.user_name} </td>
+								<td class=""> {$u.user_nickname} </td>
+								<td class=""> {notempty name="u.avatar"}<img src="{$u.avatar}" alt="" style="width:30px;height:30px;">{/notempty}</td>
+								<td class=""> {$u.sex|get_sex}</td>
+								<td class=""> {$u.mobile}</td>
+								<td class=""> {$u.user_money} </td>
+								<td class=""> {$u.score} </td>
+								<td class=""> {$u.user_level} </td>
+								<td class=""> {$u.user_type} </td>
+								<td class=""> {$u.total_consumption_money} </td>
+								<td class=""> {$u.count_score} </td>
+								<td class="text-center">
+									<a title="编辑" href="/admin.php/user/index/edit/id/1.html" icon="fa fa-pencil pr5" class="btn btn-xs mr5 btn-default btn-flat" ><i class="fa fa-pencil pr5"></i>编辑</a> 
+									<a title="禁用" href="/admin.php/user/index/setstatus/type/disable/ids/1.html" icon="fa fa-ban pr5" class="btn btn-xs mr5 btn-default btn-flat ajax-get confirm" ><i class="fa fa-ban pr5"></i>禁用</a> 
+									<a title="删除" href="/admin.php/user/index/delete/ids/1.html" icon="fa fa-times pr5" class="btn btn-xs mr5 btn-default btn-flat ajax-get confirm" ><i class="fa fa-times pr5"></i>删除</a></td>
+							</tr>
+							{/volist}
+						</tbody>
+					</table>
+					<div class="data-table-toolbar">
+						<div class="row">
+							<div class="col-sm-12">
+								{notempty name="pages"}
+								{$pages|raw}
+								{/notempty}
+								{notempty name="data_list"}
+								<div class="pagination-info pull-left"> 第 {:input('param.page', '1')} 页 / 总计 {$data_list->lastPage()} 页，共 <strong>{$data_list->total()}</strong> 条数据 </div>
+								{/notempty} 
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{/block}

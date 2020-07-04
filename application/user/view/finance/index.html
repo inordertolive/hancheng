@@ -1,0 +1,94 @@
+{extend name="$admin_layout" /}
+
+{block name="content"}
+<div class="row">
+    <div class="col-md-12">
+        <div class="box-body">
+            <div class="col-sm-6 col-md-3">
+                <div class="small-box bg-aqua">
+                    <div class="inner">
+                        <h3>{$count.month_order_price}</h3>
+                        <p>本月总销量</p>
+                    </div>
+                    <div class="icon"> <i class="ion ion-ios-gear-outline"></i> </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="small-box bg-aqua">
+                    <div class="inner">
+                        <h3>{$count.month_cash_price}</h3>
+                        <p>本月总提现</p>
+                    </div>
+                    <div class="icon"> <i class="ion ion-stats-bars"></i> </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="small-box bg-aqua">
+                    <div class="inner">
+                        <h3>{$count.prevmonth_order_price}</h3>
+                        <p>上月总销量</p>
+                    </div>
+                    <div class="icon"> <i class="ion ion-pie-graph"></i> </div>
+               </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="small-box bg-aqua">
+                    <div class="inner">
+                        <h3>{$count.prevmonth_cash_price}</h3>
+                        <p>上月总提现</p>
+                    </div>
+                    <div class="icon"> <i class="ion ion-ios-cart-outline"></i> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="__PLUG__/chartjs/Chart.min.js"></script>
+
+<div class="" style="width:100%;">
+
+{notempty name="$order"}
+<h4>本月销售额走势</h4>
+<canvas id="myChart" width="800px" height="400px" class=""></canvas>
+
+<script>
+var ctx = document.getElementById("myChart").getContext("2d");
+//数据结构
+var data = {
+	labels : {:json_encode(array_column($order,'day'))},
+	datasets : [
+		{
+			fillColor : "#CCC",
+			strokeColor : "#CCC",
+			data : {:json_encode(array_column($order,'price'))}
+		},		
+	]
+}
+new Chart(ctx).Line(data);
+</script>
+{/notempty}
+
+
+{notempty name="$cash"}
+<h4>本月提现额走势</h4>
+<canvas id="myChart2" width="800px" height="400px" class=""></canvas>
+<script>
+var ctx = document.getElementById("myChart2").getContext("2d"); 
+//数据结构
+var data = {
+	labels : {:json_encode(array_column($cash,'day'))},
+	datasets : [
+		{
+			fillColor : "#CCC",
+			strokeColor : "#CCC",
+			data : {:json_encode(array_column($cash,'price'))}
+		},		
+	]
+}
+new Chart(ctx).Line(data);
+</script>
+</div>
+{/notempty}
+
+{/block}

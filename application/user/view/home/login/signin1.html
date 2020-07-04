@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>{:config('web_site_title')} - 管理员登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="__PLUG__/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="__PLUG__/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="__PLUG__/jqueryToast/css/toast.css">
+	<link rel="stylesheet" href="__ADMIN_CSS__/AdminLTE.min.css">
+    <link rel="stylesheet" href="__ADMIN_CSS__/style.css">
+    <link rel="stylesheet" href="////at.alicdn.com/t/font_1285043_sze4dbrzdr.css">
+</head>
+<style>
+        .theme-white{
+            background:url(/static/admin/images/logo1.jpg) rgba(0,0,0, 0.5);
+        }
+        .main-content{
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,.5);
+        }
+        .signin-bg{
+            width:460px;
+            height:340px;
+            background:rgba(255,255,255,1);
+            box-shadow:0px 2px 12px 0px rgba(0,0,0,0.5);
+            border-radius:8px;
+            padding: 40px 40px 25px;
+            position: absolute;
+            top: 50%;
+            margin-top: -150px;
+            left: 50%;
+            margin-left: -250px;
+        }
+        .text-center{
+            font-size:24px;
+            font-family:PingFangSC-Regular;
+            font-weight:400;
+            color:rgba(0,0,0,0.85);
+            line-height:33px;
+        }
+        .form-control{
+            width:368px;
+            height:40px;
+            background:rgba(255,255,255,1);
+            border-radius:4px;
+            border:1px solid rgba(217,217,217,1);
+        }
+        .password{
+            width:368px;
+            height:40px;
+            background:rgba(255,255,255,1) !important;
+            border-radius:4px;
+            border:1px solid rgba(217,217,217,1);
+        }
+        .btn-sm1{
+            width:368px;
+            height:40px;
+            background:rgba(51,51,51,1);
+            border-radius:4px;
+        }
+        .form-group input{
+            width:368px;
+            height:40px;
+            background:rgba(255,255,255,1);
+            border-radius:4px !important;
+            border:1px solid rgba(217,217,217,1) !important;
+            text-indent: 3em;
+        }
+        .btn-sm1{
+            margin-top: 30px;
+        }
+        .btn-success:hover, .btn-success:active, .btn-success.hover{
+            background-color: rgb(56, 56, 56) !important;
+        }
+        .btn-success:hover{
+            border: none;
+        }
+        .form-input-box{
+            position: relative;
+        }
+        .icon-zhanghu, .icon-mima{
+            font-size: 16px;
+            position: absolute;
+            top: 9px;
+            padding-left: 14px;
+        }
+    </style>
+    
+<body class="theme-white">
+<div class="main-content">
+    <div class="signin-bg">
+        <h2 class="title1 gradient text-center">{:config('web_site_title')}管理后台</h2>
+            <div class="login-body">
+                <form action="{:url()}" method="post" id="login" data-validator-option="{timely:0, theme:'bootstrap'}">
+					<div class="form-group">
+						<div class="col-lg-12 pd0 mb15">
+                                <i class="iconfont icon-zhanghu"></i>
+							<input type="text" class="form-control" name="username" placeholder="请输入用户名" data-rule="required;username;" data-rule-username="[/^[\w\d]{3,12}$/, '请输入正确的用户名']" data-msg-required="用户名不能为空">
+						</div>
+						<div class="col-lg-12 pd0 mb15">
+                                <i class="iconfont icon-mima"></i>
+							<input type="password" name="password" class="form-control" placeholder="请输入密码" data-rule="required;length(5~16)" data-msg-required="密码不能为空" data-msg-length="请填写6-16位密码">
+						</div>
+					</div>
+                    {notempty name="Think.config.captcha_signin"}
+                    <div class="form-group">
+                        <div class="col-xs-7" style="padding:0">
+                            <input class="lock" type="text" name="captcha" placeholder="请输入验证码" data-rule="required;" data-msg-required="验证码不能为空">
+                        </div>
+                        <div class="col-xs-5" style="padding:0">
+                            <img src="{:captcha_src('admin')}" class="pull-right" id="captcha" style="cursor: pointer;height:40px"
+                                  title="点击刷新" alt="captcha"/>
+                        </div>
+                    </div>
+                    {/notempty}
+                    <div class="clearfix"></div>
+                    <div class="forgot-grid pb10">
+                        <div class="clearfix"></div>
+                    </div>
+                    <input type="submit" class="btn btn-block btn-success btn-sm btn-sm1" name="登 录" value="登 录">
+                </form>
+            </div>
+    </div>
+</div>
+<script src="__PLUG__/jquery/jquery.min.js"></script>
+<script src="__PLUG__/jqueryToast/js/toast.js"></script>
+<script src="__PLUG__/nice-validator/jquery.validator.min.js?local=zh-CN"></script>
+<script src="__ADMIN_JS__/stars.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#login').on('valid.form', function (e) {
+            var $data = $(this).serialize();
+
+            Stars.loading();
+            $.post($(this).attr('action'), $data, function (res) {
+                Stars.loading('hide');
+                if (res.code) {
+                    Stars.notify('登录成功，页面即将跳转~', 'success');
+                    setTimeout(function () {
+                        location.href = res.url;
+                    }, 1500);
+                } else {
+                    if (res.msg == '验证码错误或失效') {
+                        $('#captcha').click();
+                    }
+                    Stars.notify(res.msg, 'danger','fa fa-bell-slash');
+                }
+            }).fail(function () {
+                Stars.loading('hide');
+                Stars.notify('服务器错误~', 'danger');
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+{extend name="layout" /}
+{block name="content"}
+<div class="row">
+	<div class="col-md-12">
+		<div class="box nav-tabs-custom">
+			<div class="box-header with-border">
+				<h3 class="box-title">新增业务流程</h3>
+			</div>
+			<div class="box-body tab-content">
+				<div class="tab-pane active">
+					<div class="block-content"> 
+						
+						<!-- 表单验证请保留id="form"，否则验证不起作用 -->
+						<form class="form row" name="form1" id="form1" action="/admin.php/admin/apiprocess/add.html" method="post" data-validator-option="{timely:1, theme:'bootstrap'}">
+							{:token()}
+							<div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12" id="form_group_name">
+								<div class="col-xs-12 label-title" for="name">业务流程名称</div>
+								<div class="col-sm-12">
+									<input class="form-control" type="text" id="name" name="name" value="" placeholder="请输入业务流程名称" >
+								</div>
+							</div>
+							<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3" id="form_group_content">
+								<div class="col-xs-12 label-title" for="">接口列表</div>
+								<div class="col-sm-12">
+									<select multiple="multiple" style="height:400px;width:100%" id="left_select">
+										{volist name="api" id="api"}
+										<option value="{$key}">{$key} - {$api}</option>
+										{/volist}
+									</select>
+								</div>
+							</div>
+							<div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2" id="form_group_content">
+								<div class="col-xs-12 label-title text-center" for="">请选择接口</div>
+								<div class="col-sm-12 text-center">
+								<p>
+									<button type="button" class="btn btn-primary btn-flat" id="left_btn">选择左侧接口</button>
+								</p>
+								<p>
+									<button type="button" class="btn btn-primary btn-flat" id="right_btn">移除右侧选定接口</button>
+								</p>
+								<p>
+									<button type="button" class="btn btn-primary btn-flat" id="remove_all">移除右侧所有接口</button>
+								</p>
+								</div>
+							</div>
+							<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3" id="form_group_content">
+								<div class="col-xs-12 label-title" for="content">流程接口</div>
+								<div class="col-sm-12">
+									 <select class="form-control" id="content" name="content" multiple="multiple" style="height:400px;width:100%">
+									</select>
+								</div>
+							</div>
+							<div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2" id="form_group_content">
+								<div class="col-xs-12 label-title" for="">右侧接口</div>
+								<div class="col-sm-12">
+								<p>
+									<button type="button" class="btn btn-primary btn-flat" onclick="optionUp()">上移</button>
+								</p>
+								<p>
+									<button type="button" class="btn btn-primary btn-flat" onclick="optionDown()">下移</button>
+								</p>
+								</div>
+							</div>
+							<div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12" id="form_group_name">
+								<div class="col-sm-12">
+									注：右侧接口为最终结果，按照从上到下排序，前端展示也按照这个顺序
+								</div>
+							</div>
+							<div class="form-group col-md-12 col-xs-12">
+							<div class="col-xs-12">
+								<button class="btn btn-primary btn-flat" type="submit"> 提交 </button>
+								<button class="btn btn-default btn-flat" type="button" onClick="javascript:history.back(-1);return false;"> 返回 </button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+        $(function(){
+            //页面加载完毕后开始执行的事件
+            //点击左边select 去右边
+            $("#left_btn").click(function(){
+                $("#left_select option:selected").each(function(){
+                    $("#content").append($(this).prop("outerHTML"));
+                    //$(this).remove();
+                });
+            });
+
+            //点击右边select 去左边
+            $("#right_btn").click(function(){
+                $("#content option:selected").each(function(){
+                    //$("#left_select").append($(this).prop("outerHTML"));
+                    $(this).remove();
+                });
+            });
+			//删除右侧所有
+			$("#remove_all").click(function () {
+		        var $option = $("#content option");
+		        $option.appendTo("#left_select");
+		     });
+		/*下移*/
+		$('#down_btn').on('click', function() {
+			var txt = $('ul .on').children('span').html();
+			var txt1 = $('ul .on').next().children('span').html();
+			var next = $('ul .on').next();
+			if ($('ul .on').length == 1) {
+				if (next.length) {
+					$('ul .on').children('span').html(txt1);
+					next.children('span').html(txt);
+					next.addClass('on').siblings().removeClass('on');
+				} else {
+					alert('已经在最底端了');
+				};
+			} else {
+				alert('请选择要下移的元素');
+			};
+		});
+
+		$('#form1').on('valid.form', function(e) {
+			Stars.loading();
+			var form_data={},options_data=[];
+			form_data.name = $('#name').val();
+			$("#content option" ).each(function() {
+				options_data.push($(this).val());
+			});
+			form_data.content = options_data.join(',');
+			var btn = $(this).find('button[type="submit"]');
+			jQuery.post($(this).attr('action'), form_data, function(res) {
+				Stars.loading('hide');
+				msg = res.msg;
+
+				if (res.code) {
+					if (res.url && !$(this).hasClass("no-refresh")) {
+						msg += "， 即将返回指定页面~";
+					}
+					Stars.notify(msg, 'success');
+					setTimeout(function() {
+						btn.attr("autocomplete", "on").prop("disabled", false);
+						return $(this).hasClass("no-refresh") ? false : void(res.url && !$(this).hasClass("no-forward") ? location.href = res.url : location.reload());
+					}, 1000);
+				} else {
+					Stars.notify(msg, 'danger');
+					btn.attr("autocomplete", "on").prop("disabled", false);
+				}
+			}, "json").fail(function(res) {
+				Stars.loading('hide');
+				btn.attr("autocomplete", "on").prop("disabled", false);
+				Stars.notify($(res.responseText).find('h1').text() || '服务器内部错误~', 'danger');
+			});
+		});
+	});
+function optionUp(){
+	var  selOptions = $("#content option:selected");
+	if(selOptions.length == 0){
+		alert('请先选中要移动的接口');
+		return false;
+	}
+	if(selOptions.get(0).index!=0){     //选中内容不处于最顶端
+		//遍历选中的option
+		selOptions.each(function(){
+			//把选中的option换到前一个元素之前，实现上移
+			$(this).prev().before($(this));  
+		});
+	}
+}
+
+function optionDown(){
+	var  selOptions = $("#content option:selected");
+	if(selOptions.length == 0){
+		alert('请先选中要移动的接口');
+		return false;
+	}
+	//最后一个option的下标
+	var lastOptionIndex = $("#content option").length-1;
+	//选中内容的最后一项的下标
+	var selLastIndex = selOptions .get(selOptions .length-1).index;
+	if(selLastIndex !=lastOptionIndex ){     //选中内容不处于最底端
+		//遍历选中的option
+		selOptions.each(function(){
+		//把选中的option换到后一个元素之后，实现下移移
+		$(this).next().after($(this));  
+		});
+	}
+}
+</script>
+{/block}

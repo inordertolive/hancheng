@@ -1,0 +1,85 @@
+{extend name="layout" /}
+{block name="content"}
+<div class="row">
+	<div class="col-md-2">
+		{volist name="directory" id="d"}
+		<div class="box box-solid">
+			<div class="box-header with-border">
+				<h3 class="box-title">{$d.text}</h3>
+				<div class="box-tools">
+					<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i> </button>
+				</div>
+			</div>
+			<div class="box-body no-padding">
+				<ul class="nav nav-pills nav-stacked">
+					{volist name="d.children" id="dc"}
+					<li style="display:block;width:100%;overflow: hidden;" {eq name="dc.id" value="$file_paths"}class="active"{/eq}><a style="width: 80%;" class="pull-left" href="{:url('get_system_log')}?file_paths={$dc.id}"> {$dc.text}</a><span class="pull-right ajax-get confirm" style="margin-top:10px;margin-right:10px;" data-url="{:url('del')}?file_paths={$dc.id}"><i class="fa fa-trash-o"></i></span></li>
+					{/volist}
+				</ul>
+			</div>
+			<!-- /.box-body --> 
+		</div>
+		{/volist}
+		<!-- /.box --> 
+	</div>
+	<!-- /.col -->
+	<div class="col-md-10">
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title">日志列表</h3>
+				<!-- /.box-tools --> 
+			</div>
+			<!-- /.box-header -->
+			<div class="box-body no-padding">
+				<div class="table-responsive mailbox-messages">
+					<table class="table table-hover table-striped">
+						<tbody>
+							{volist name="rows" id="r"}
+							<tr>
+								<td>{$r.id}</td>
+								<td class="mailbox-star">{$r.level}</td>
+								<td class="mailbox-star">{$r.time}</td>
+								<td class="mailbox-name">{$r.ip}</td>
+								<td class="mailbox-subject">{$r.method}</td>
+								<td class="mailbox-attachment">{$r.url}</td>
+								<td class="mailbox-date"><a onclick="layer_page({$r.id})" href="javascript:void(0);">查看详情</a><div id="layer{$r.id}" style="display:none">{$r.content}</div></td>
+							</tr>
+							{/volist}
+						</tbody>
+					</table>
+					<!-- /.table --> 
+				</div>
+				<!-- /.mail-box-messages --> 
+			</div>
+		</div>
+		<!-- /. box --> 
+	</div>
+	<!-- /.col --> 
+</div>
+{/block}
+
+{block name="script"}
+<script>
+function layer_page(id){
+	var content = $('#layer'+id).html();
+	layer.open({
+	  type: 1 //Page层类型
+	  ,area: ['1000px', '800px']
+	  ,title: '日志内容'
+	  ,shade: 0.6 //遮罩透明度
+	  ,maxmin: true //允许全屏最小化
+	  ,anim: 1 //0-6的动画形式，-1不开启
+	  ,scrollbar: false
+	  ,shadeClose: true
+	  ,content: '<div style="padding:10px;"><pre>'+content+'</pre></div>'
+	});
+} 
+
+function delete_log(str){
+	console.log(str);
+	$.get("{:url('del')}?file_paths="+str, function(data){
+		layer.msg(data.msg)
+	});
+}
+</script>
+{/block}

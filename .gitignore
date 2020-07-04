@@ -1,0 +1,9 @@
+/.idea/
+/public/uploads/
+/public/update/
+/.env
+/.user.ini
+/.env.sample
+/runtime/
+/public/nginx.htaccess
+/public/.user.ini

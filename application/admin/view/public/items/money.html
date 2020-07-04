@@ -1,0 +1,9 @@
+<div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12" id="form_group_{$form.name}">
+    <div class="col-xs-12 label-title" for="{$form.name}">{$form.title|htmlspecialchars}</div>
+    <div class="col-sm-12">
+        <input class="form-control" type="text" id="{$form.name}" name="{$form.name}" value="{$form.value|default=''}" placeholder="{$form.placeholder|default='请输入'.$form.title}" {php}if(isset($form['min']) && $form['min'] !== ''):{/php}min="{$form.min}"{php}endif;{/php} {php}if(isset($form['max']) && $form['max'] !== ''):{/php}max="{$form.max}"{php}endif;{/php} {php}if(isset($form['step']) && $form['step'] !== ''):{/php}step="{$form.step}"{php}endif;{/php} {$form.attr|default=''}>
+        {notempty name="form.tips"}
+        <div class="help-block">{$form.tips|raw}</div>
+        {/notempty}
+    </div>
+</div>

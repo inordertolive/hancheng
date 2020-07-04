@@ -1,0 +1,184 @@
+{extend name="layout" /}
+{block name="content"}
+<div class="row">
+	<div class="col-md-12">
+		<div class="block nav-tabs-custom"> {notempty name="tab_list"}
+			<ul class="nav nav-tabs">
+				{volist name="tab_list" id="tab"}
+				<li {eq name="group" value="$key"}class="active"{/eq}> <a href="{$tab.url}">{$tab.title}</a> </li>
+				{/volist}
+			</ul>
+			{/notempty}
+
+			<div class="box-body">
+				<div class="tab-pane active">
+					<div class="pb10">
+														<a title="新增配置" href="/admin.php/admin/config/add/group/base.html" icon="fa fa-plus pr5" class="btn btn-sm mr5 btn-success btn-flat"><i class="fa fa-plus pr5"></i> 新增配置</a>					</div>
+					<table class="table table-builder table-hover table-bordered table-striped mb10">
+						<thead>
+													<tr><th class="text-center" style="width: 70px;">
+								<div class="icheckbox_minimal-red" aria-checked="false" aria-disabled="false" style="position: relative;"><input class="minimal-red checkboxCtrl" data-group="ids[]" data-toggle="icheck" type="checkbox" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+							</th>
+														<th class="">名称</th>
+														<th class="">标题</th>
+														<th class="text-center">类型</th>
+														<th class="text-center">状态</th>
+														<th class="text-center">操作</th>
+													</tr></thead>
+						<tbody>
+												<tr> 
+														<td class="text-center" style="width: 70px;"><div class="icheckbox_minimal-red" data-icheck="ids[]" aria-checked="false" aria-disabled="false" style="position: relative;"><input class="ids minimal-red" data-toggle="icheck" type="checkbox" name="ids[]" value="1" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
+														<td class=""> 								web_site_status 
+							</td>
+														<td class=""> 								站点开关 
+							</td>
+														<td class="text-center"> 								<span class="label label-flat label-default">单选按钮</span> 
+							</td>
+														<td class="text-center"> 								<span class="label label-flat label-success">正常</span> 
+							</td>
+														<td class="text-center"> 								<a ident="edit" title="编辑" href="/admin.php/admin/config/edit/id/1.html" icon="fa fa-pencil pr5" class="btn btn-xs mr5 btn-success btn-flat"><i class="fa fa-pencil pr5"></i>编辑</a> <a ident="disable" title="禁用" href="/admin.php/admin/config/setstatus/type/disable/ids/1.html" icon="fa fa-ban pr5" class="btn btn-xs mr5 btn-warning btn-flat ajax-get confirm"><i class="fa fa-ban pr5"></i>禁用</a> <a ident="delete" title="删除" href="/admin.php/admin/config/delete/ids/1.html" icon="fa fa-times pr5" class="btn btn-xs mr5 btn-danger btn-flat ajax-get confirm"><i class="fa fa-times pr5"></i>删除</a>  
+							</td>
+							 
+						</tr>
+												<tr> 
+														<td class="text-center" style="width: 70px;"><div class="icheckbox_minimal-red" data-icheck="ids[]" aria-checked="false" aria-disabled="false" style="position: relative;"><input class="ids minimal-red" data-toggle="icheck" type="checkbox" name="ids[]" value="2" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
+														<td class=""> 								web_site_title 
+							</td>
+														<td class=""> 								站点标题 
+							</td>
+														<td class="text-center"> 								<span class="label label-flat label-default">单行文本</span> 
+							</td>
+														<td class="text-center"> 								<span class="label label-flat label-success">正常</span> 
+							</td>
+														<td class="text-center"> 								<a ident="edit" title="编辑" href="/admin.php/admin/config/edit/id/2.html" icon="fa fa-pencil pr5" class="btn btn-xs mr5 btn-success btn-flat"><i class="fa fa-pencil pr5"></i>编辑</a> <a ident="disable" title="禁用" href="/admin.php/admin/config/setstatus/type/disable/ids/2.html" icon="fa fa-ban pr5" class="btn btn-xs mr5 btn-warning btn-flat ajax-get confirm"><i class="fa fa-ban pr5"></i>禁用</a> <a ident="delete" title="删除" href="/admin.php/admin/config/delete/ids/2.html" icon="fa fa-times pr5" class="btn btn-xs mr5 btn-danger btn-flat ajax-get confirm"><i class="fa fa-times pr5"></i>删除</a>  
+							</td>
+							 
+						</tr>
+												<tr> 
+														<td class="text-center" style="width: 70px;"><div class="icheckbox_minimal-red" data-icheck="ids[]" aria-checked="false" aria-disabled="false" style="position: relative;"><input class="ids minimal-red" data-toggle="icheck" type="checkbox" name="ids[]" value="3" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
+														<td class=""> 								web_site_logo 
+							</td>
+														<td class=""> 								站点LOGO 
+							</td>
+														<td class="text-center"> 								<span class="label label-flat label-default">图片集</span> 
+							</td>
+														<td class="text-center"> 								<span class="label label-flat label-success">正常</span> 
+							</td>
+														<td class="text-center"> 								<a ident="edit" title="编辑" href="/admin.php/admin/config/edit/id/3.html" icon="fa fa-pencil pr5" class="btn btn-xs mr5 btn-success btn-flat"><i class="fa fa-pencil pr5"></i>编辑</a> <a ident="disable" title="禁用" href="/admin.php/admin/config/setstatus/type/disable/ids/3.html" icon="fa fa-ban pr5" class="btn btn-xs mr5 btn-warning btn-flat ajax-get confirm"><i class="fa fa-ban pr5"></i>禁用</a> <a ident="delete" title="删除" href="/admin.php/admin/config/delete/ids/3.html" icon="fa fa-times pr5" class="btn btn-xs mr5 btn-danger btn-flat ajax-get confirm"><i class="fa fa-times pr5"></i>删除</a>  
+							</td>
+							 
+						</tr>
+												<tr> 
+														<td class="text-center" style="width: 70px;"><div class="icheckbox_minimal-red" data-icheck="ids[]" aria-checked="false" aria-disabled="false" style="position: relative;"><input class="ids minimal-red" data-toggle="icheck" type="checkbox" name="ids[]" value="4" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
+														<td class=""> 								web_site_description 
+							</td>
+														<td class=""> 								站点描述 
+							</td>
+														<td class="text-center"> 								<span class="label label-flat label-default">多行文本</span> 
+							</td>
+														<td class="text-center"> 								<span class="label label-flat label-success">正常</span> 
+							</td>
+														<td class="text-center"> 								<a ident="edit" title="编辑" href="/admin.php/admin/config/edit/id/4.html" icon="fa fa-pencil pr5" class="btn btn-xs mr5 btn-success btn-flat"><i class="fa fa-pencil pr5"></i>编辑</a> <a ident="disable" title="禁用" href="/admin.php/admin/config/setstatus/type/disable/ids/4.html" icon="fa fa-ban pr5" class="btn btn-xs mr5 btn-warning btn-flat ajax-get confirm"><i class="fa fa-ban pr5"></i>禁用</a> <a ident="delete" title="删除" href="/admin.php/admin/config/delete/ids/4.html" icon="fa fa-times pr5" class="btn btn-xs mr5 btn-danger btn-flat ajax-get confirm"><i class="fa fa-times pr5"></i>删除</a>  
+							</td>
+							 
+						</tr>
+												<tr> 
+														<td class="text-center" style="width: 70px;"><div class="icheckbox_minimal-red" data-icheck="ids[]" aria-checked="false" aria-disabled="false" style="position: relative;"><input class="ids minimal-red" data-toggle="icheck" type="checkbox" name="ids[]" value="5" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
+														<td class=""> 								web_site_keywords 
+							</td>
+														<td class=""> 								站点关键词 
+							</td>
+														<td class="text-center"> 								<span class="label label-flat label-default">单行文本</span> 
+							</td>
+														<td class="text-center"> 								<span class="label label-flat label-success">正常</span> 
+							</td>
+														<td class="text-center"> 								<a ident="edit" title="编辑" href="/admin.php/admin/config/edit/id/5.html" icon="fa fa-pencil pr5" class="btn btn-xs mr5 btn-success btn-flat"><i class="fa fa-pencil pr5"></i>编辑</a> <a ident="disable" title="禁用" href="/admin.php/admin/config/setstatus/type/disable/ids/5.html" icon="fa fa-ban pr5" class="btn btn-xs mr5 btn-warning btn-flat ajax-get confirm"><i class="fa fa-ban pr5"></i>禁用</a> <a ident="delete" title="删除" href="/admin.php/admin/config/delete/ids/5.html" icon="fa fa-times pr5" class="btn btn-xs mr5 btn-danger btn-flat ajax-get confirm"><i class="fa fa-times pr5"></i>删除</a>  
+							</td>
+							 
+						</tr>
+												<tr> 
+														<td class="text-center" style="width: 70px;"><div class="icheckbox_minimal-red" data-icheck="ids[]" aria-checked="false" aria-disabled="false" style="position: relative;"><input class="ids minimal-red" data-toggle="icheck" type="checkbox" name="ids[]" value="6" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
+														<td class=""> 								web_site_copyright 
+							</td>
+														<td class=""> 								版权信息 
+							</td>
+														<td class="text-center"> 								<span class="label label-flat label-default">单行文本</span> 
+							</td>
+														<td class="text-center"> 								<span class="label label-flat label-success">正常</span> 
+							</td>
+														<td class="text-center"> 								<a ident="edit" title="编辑" href="/admin.php/admin/config/edit/id/6.html" icon="fa fa-pencil pr5" class="btn btn-xs mr5 btn-success btn-flat"><i class="fa fa-pencil pr5"></i>编辑</a> <a ident="disable" title="禁用" href="/admin.php/admin/config/setstatus/type/disable/ids/6.html" icon="fa fa-ban pr5" class="btn btn-xs mr5 btn-warning btn-flat ajax-get confirm"><i class="fa fa-ban pr5"></i>禁用</a> <a ident="delete" title="删除" href="/admin.php/admin/config/delete/ids/6.html" icon="fa fa-times pr5" class="btn btn-xs mr5 btn-danger btn-flat ajax-get confirm"><i class="fa fa-times pr5"></i>删除</a>  
+							</td>
+							 
+						</tr>
+												<tr> 
+														<td class="text-center" style="width: 70px;"><div class="icheckbox_minimal-red" data-icheck="ids[]" aria-checked="false" aria-disabled="false" style="position: relative;"><input class="ids minimal-red" data-toggle="icheck" type="checkbox" name="ids[]" value="7" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
+														<td class=""> 								web_site_icp 
+							</td>
+														<td class=""> 								备案信息 
+							</td>
+														<td class="text-center"> 								<span class="label label-flat label-default">单行文本</span> 
+							</td>
+														<td class="text-center"> 								<span class="label label-flat label-success">正常</span> 
+							</td>
+														<td class="text-center"> 								<a ident="edit" title="编辑" href="/admin.php/admin/config/edit/id/7.html" icon="fa fa-pencil pr5" class="btn btn-xs mr5 btn-success btn-flat"><i class="fa fa-pencil pr5"></i>编辑</a> <a ident="disable" title="禁用" href="/admin.php/admin/config/setstatus/type/disable/ids/7.html" icon="fa fa-ban pr5" class="btn btn-xs mr5 btn-warning btn-flat ajax-get confirm"><i class="fa fa-ban pr5"></i>禁用</a> <a ident="delete" title="删除" href="/admin.php/admin/config/delete/ids/7.html" icon="fa fa-times pr5" class="btn btn-xs mr5 btn-danger btn-flat ajax-get confirm"><i class="fa fa-times pr5"></i>删除</a>  
+							</td>
+							 
+						</tr>
+												<tr> 
+														<td class="text-center" style="width: 70px;"><div class="icheckbox_minimal-red" data-icheck="ids[]" aria-checked="false" aria-disabled="false" style="position: relative;"><input class="ids minimal-red" data-toggle="icheck" type="checkbox" name="ids[]" value="8" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
+														<td class=""> 								web_site_statistics 
+							</td>
+														<td class=""> 								站点统计 
+							</td>
+														<td class="text-center"> 								<span class="label label-flat label-default">多行文本</span> 
+							</td>
+														<td class="text-center"> 								<span class="label label-flat label-success">正常</span> 
+							</td>
+														<td class="text-center"> 								<a ident="edit" title="编辑" href="/admin.php/admin/config/edit/id/8.html" icon="fa fa-pencil pr5" class="btn btn-xs mr5 btn-success btn-flat"><i class="fa fa-pencil pr5"></i>编辑</a> <a ident="disable" title="禁用" href="/admin.php/admin/config/setstatus/type/disable/ids/8.html" icon="fa fa-ban pr5" class="btn btn-xs mr5 btn-warning btn-flat ajax-get confirm"><i class="fa fa-ban pr5"></i>禁用</a> <a ident="delete" title="删除" href="/admin.php/admin/config/delete/ids/8.html" icon="fa fa-times pr5" class="btn btn-xs mr5 btn-danger btn-flat ajax-get confirm"><i class="fa fa-times pr5"></i>删除</a>  
+							</td>
+							 
+						</tr>
+												<tr> 
+														<td class="text-center" style="width: 70px;"><div class="icheckbox_minimal-red" data-icheck="ids[]" aria-checked="false" aria-disabled="false" style="position: relative;"><input class="ids minimal-red" data-toggle="icheck" type="checkbox" name="ids[]" value="38" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
+														<td class=""> 								web_site_domain 
+							</td>
+														<td class=""> 								域名 
+							</td>
+														<td class="text-center"> 								<span class="label label-flat label-default">单行文本</span> 
+							</td>
+														<td class="text-center"> 								<span class="label label-flat label-success">正常</span> 
+							</td>
+														<td class="text-center"> 								<a ident="edit" title="编辑" href="/admin.php/admin/config/edit/id/38.html" icon="fa fa-pencil pr5" class="btn btn-xs mr5 btn-success btn-flat"><i class="fa fa-pencil pr5"></i>编辑</a> <a ident="disable" title="禁用" href="/admin.php/admin/config/setstatus/type/disable/ids/38.html" icon="fa fa-ban pr5" class="btn btn-xs mr5 btn-warning btn-flat ajax-get confirm"><i class="fa fa-ban pr5"></i>禁用</a> <a ident="delete" title="删除" href="/admin.php/admin/config/delete/ids/38.html" icon="fa fa-times pr5" class="btn btn-xs mr5 btn-danger btn-flat ajax-get confirm"><i class="fa fa-times pr5"></i>删除</a>  
+							</td>
+							 
+						</tr>
+												<tr> 
+														<td class="text-center" style="width: 70px;"><div class="icheckbox_minimal-red" data-icheck="ids[]" aria-checked="false" aria-disabled="false" style="position: relative;"><input class="ids minimal-red" data-toggle="icheck" type="checkbox" name="ids[]" value="39" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
+														<td class=""> 								web_default_theme 
+							</td>
+														<td class=""> 								默认主题 
+							</td>
+														<td class="text-center"> 								<span class="label label-flat label-default">单行文本</span> 
+							</td>
+														<td class="text-center"> 								<span class="label label-flat label-success">正常</span> 
+							</td>
+														<td class="text-center"> 								<a ident="edit" title="编辑" href="/admin.php/admin/config/edit/id/39.html" icon="fa fa-pencil pr5" class="btn btn-xs mr5 btn-success btn-flat"><i class="fa fa-pencil pr5"></i>编辑</a> <a ident="disable" title="禁用" href="/admin.php/admin/config/setstatus/type/disable/ids/39.html" icon="fa fa-ban pr5" class="btn btn-xs mr5 btn-warning btn-flat ajax-get confirm"><i class="fa fa-ban pr5"></i>禁用</a> <a ident="delete" title="删除" href="/admin.php/admin/config/delete/ids/39.html" icon="fa fa-times pr5" class="btn btn-xs mr5 btn-danger btn-flat ajax-get confirm"><i class="fa fa-times pr5"></i>删除</a>  
+							</td>
+							 
+						</tr>
+												</tbody>
+					</table>
+					<div class="data-table-toolbar">
+						<div class="row">
+							<div class="col-sm-12"> 
+																<div class="pagination-info pull-left"> 第 1 页 / 总计 1 页，共 <strong>10</strong> 条数据 </div>
+								 
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{/block}

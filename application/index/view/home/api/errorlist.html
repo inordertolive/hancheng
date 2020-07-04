@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class=" ">
+<head>
+<meta charset="utf-8">
+<title>{:config('web_site_title')} 接口文档</title>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--自适应声明部分-->
+<meta name="applicable-device" content="pc">
+<link rel="stylesheet" type="text/css" href="/static/plugins/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/static/plugins/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="/static/plugins/other/document.css">
+<link rel="stylesheet" href="/static/admin/css/AdminLTE.min.css?v=20180725">
+<link rel="stylesheet" href="/static/admin/css/skins/skin-black.css?v={:config('asset_version')}">
+<link rel="stylesheet" href="/static/admin/css/style.css?v={:config('asset_version')}">
+<script type="text/javascript" src="/static/plugins/jquery/jquery.min.js"></script>
+</head>
+<body>
+<table class="table table-hover table-bordered mb0">
+	<tbody>
+		<tr>
+			<th width="70">错误码</th>
+			<th>中文说明</th>
+		</tr>
+	{volist name="$errorlist" id="vo"}
+	<tr>
+		<td>{$vo[0]}</td>
+		<td>{$vo[1]}</td>
+	</tr>
+	{/volist}
+	</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12" id="form_group_{$form.name}">
+    <div class="col-xs-12 col-xs-12 col-md-1 label-title" for="{$form.name}">{$form.title|htmlspecialchars}</div>
+    <div class="col-sm-12 col-xs-12 col-md-4">
+        <input class="js-tags-input form-control" type="text" id="{$form.name}" name="{$form.name}" value="{$form.value|default=''}" {$form.extra_attr|raw|default=''}>
+        {notempty name="form.tips"}
+        <div class="help-block">{$form.tips|raw|clear_js}</div>
+        {/notempty}
+    </div>
+</div>
+<script src="__PLUG__/jquery/jquery.min.js?v={:config('asset_version')}"></script>
+<link rel="stylesheet" href="__PLUG__/jquery-tags-input/jquery.tagsinput.css?v={:config('asset_version')}">
+<script src="__PLUG__/jquery-tags-input/jquery.tagsinput.js?v={:config('asset_version')}"></script>
+<script>
+    jQuery('.js-tags-input').tagsInput({
+        height: 'auto',
+        width: '100%',
+        defaultText: '添加标签',
+        removeWithBackspace: true,
+        comfortZone:3,
+        delimiter: [',']
+    });
+</script>

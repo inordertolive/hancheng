@@ -1,0 +1,13 @@
+<div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12" id="form_group_{$form.name}">
+    <div class="col-xs-12 label-title" for="{$form.name}">{$form.title|htmlspecialchars}</div>
+    <div class="col-sm-12">
+        <select class="select2 form-control" id="{$form.name}" name="{$form.name}" {$form.attr|default=''}>
+            {volist name="form.extra" id="option"}
+            <option value="{$key}" {if ((string)$form.value == (string)$key)}selected{/if}>{$option|raw}</option>
+            {/volist}
+        </select>
+        {notempty name="form.tips"}
+        <div class="help-block">{$form.tips|raw}</div>
+        {/notempty}
+    </div>
+</div>

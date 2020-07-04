@@ -1,0 +1,30 @@
+<div class="btn-group dropup">
+
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    查看
+  </button>  
+   <div class="dropdown-menu" style="width:400px;left:-340px;bolder:1px #dbdbdb solid;padding:2px !important">
+		<table class="table table-bordered table-condensed" style="margin:0px">
+			<tr>
+				<th>消息标题</th>
+				<td>{$data.title}</td>
+			</tr>
+			<tr>
+				<th>消息内容</th>
+				<td>{$data.text}</td>
+			</tr>
+			<tr>
+				<th>消息类型</th>
+				<td>{$umtype[$data.msg_type]}</td>
+			</tr>
+			<tr>
+				<th>主播ID</th>
+				<td>{$data.user_id}</td>
+			</tr>
+			<tr>
+				<th>房间ID</th>
+				<td>{$data.room_id}</td>
+			</tr>
+		</table>
+	</div>
+</div>
